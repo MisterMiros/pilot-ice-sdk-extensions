@@ -5,7 +5,7 @@ using System.Text;
 using Ascon.Pilot.SDK;
 using System.Threading;
 
-namespace Ascon.Pilot.SDK.Extensions.Objects
+namespace Ascon.Pilot.SDK.Extensions
 {
     public class ObjectGetter<I> where I : class
     {

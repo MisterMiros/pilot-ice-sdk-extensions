@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using Ascon.Pilot.SDK;
 
-namespace Ascon.Pilot.SDK.Extensions.Objects
+namespace Ascon.Pilot.SDK.Extensions
 {
     public static class IObjectsRepositoryExtensions
     {
