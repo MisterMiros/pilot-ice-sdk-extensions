@@ -14,11 +14,9 @@ namespace Ascon.Pilot.SDK.Extensions
 
         public DeepCopyCreator Creator { get; set; }
         public int TimeoutTime { get; set; }
-        IObjectsRepository _repo;
 
-        public ObjectGetter(IObjectsRepository repo, ObjectFilter filter = null, DeepCopyCreator creator = null)
+        public ObjectGetter(ObjectFilter filter = null, DeepCopyCreator creator = null)
         {
-            _repo = repo;
             Creator = creator;
         }
 
@@ -48,7 +46,7 @@ namespace Ascon.Pilot.SDK.Extensions
             {
                 searcher = BaseSearcher.GetInstance();
             }
-            return _repo.Subscribe<I>(guids).SelectMany((obl) =>
+            return Extensions.Repository.Subscribe<I>(guids).SelectMany((obl) =>
             {
                 I @object = GetObject(obl, TimeoutTime);
                 if (Creator != null)
