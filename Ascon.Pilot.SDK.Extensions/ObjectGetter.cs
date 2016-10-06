@@ -48,12 +48,20 @@ namespace Ascon.Pilot.SDK.Extensions
             }
             return Extensions.Repository.SubscribeMany<I>(guids).SelectMany((obl) =>
             {
-                I @object = GetObject(obl);
-                if (Creator != null)
+                try
                 {
-                    @object = Creator(@object);
+                    I @object = GetObject(obl);
+                    if (Creator != null)
+                    {
+                        @object = Creator(@object);
+                    }
+                    return searcher.SearchNext(@object, this);
                 }
-                return searcher.SearchNext(@object, this);
+                catch (Exception ex)
+                {
+                    Extensions.ErrorHandler.Handle(ex);
+                }
+                return null;
             });
         }
 
