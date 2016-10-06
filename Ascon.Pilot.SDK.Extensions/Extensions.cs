@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Ascon.Pilot.SDK.Extensions;
+using System.Threading;
 
 namespace Ascon.Pilot.SDK.Extensions
 {
@@ -28,6 +28,13 @@ namespace Ascon.Pilot.SDK.Extensions
             Repository = repo;
             ErrorHandler = errorHandler;
             Timeout = timeout;
+        }
+
+        public static void Start(ThreadStart start)
+        {
+            Thread thread = new Thread(start);
+            thread.Name = "ExtensionThread";
+            thread.Start();
         }
     }
 }
