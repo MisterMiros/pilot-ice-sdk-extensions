@@ -44,6 +44,10 @@ namespace Ascon.Pilot.SDK.Extensions
 
         public IEnumerable<I> GetObjects(IEnumerable<Guid> guids, IObjectSearcher<I> searcher = null)
         {
+            if (searcher == null)
+            {
+                searcher = BaseSearcher.GetInstance();
+            }
             return _repo.Subscribe<I>(guids).SelectMany((obl) =>
             {
                 I @object = GetObject(obl, TimeoutTime);
@@ -51,20 +55,8 @@ namespace Ascon.Pilot.SDK.Extensions
                 {
                     @object = Creator(@object);
                 }
-                if (searcher == null)
-                {
-                    return GetEnumerable(@object);
-                }
-                else
-                {
-                    return searcher.SearchNext(@object, this);
-                }
+                return searcher.SearchNext(@object, this);
             });
-        }
-
-        private IEnumerable<I> GetEnumerable(I @object)
-        {
-            yield return @object;
         }
 
         private class ObjectObserver : IObserver<I>
@@ -92,9 +84,26 @@ namespace Ascon.Pilot.SDK.Extensions
                 _unsub = ((IObservable<I>)observable).Subscribe(this);
             }
         }
+
+        private class BaseSearcher : IObjectSearcher<I>
+        {
+            static readonly BaseSearcher _instance = new BaseSearcher();
+            public static BaseSearcher GetInstance()
+
+            {
+                return _instance;
+            }
+
+            private BaseSearcher() { }
+
+            public IEnumerable<I> SearchNext(I @object, ObjectGetter<I> getter)
+            {
+                yield return @object;
+            }
+        }
     }
 
-    public interface IObjectSearcher<I>  where I : class
+    public interface IObjectSearcher<I> where I : class
     {
         IEnumerable<I> SearchNext(I @object, ObjectGetter<I> getter);
     }
