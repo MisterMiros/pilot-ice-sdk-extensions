@@ -56,6 +56,7 @@
     <Compile Include="DeepCopies\DeepTaskObject.cs" />
     <Compile Include="DeepCopies\DeepType.cs" />
     <Compile Include="Extensions.cs" />
+    <Compile Include="IErrorHandler.cs" />
     <Compile Include="ObjectsExtensions\IObjectsRepositoryExtensions.cs" />
     <Compile Include="ObjectsExtensions\ObjectGetter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

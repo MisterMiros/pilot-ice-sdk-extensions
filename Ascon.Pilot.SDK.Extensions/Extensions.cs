@@ -8,19 +8,20 @@ namespace Ascon.Pilot.SDK.Extensions
 {
     public static class Extensions
     {
-        private static IObjectsRepository _repo;
-
         public static IObjectsRepository Repository
         {
-            get
-            {
-                return _repo;
-            }
+            get; private set;
         }
 
-        public static void Initialize(IObjectsRepository repo)
+        public static IErrorHandler ErrorHandler
         {
-            _repo = repo;
+            get; private set;
+        }
+
+        public static void Initialize(IObjectsRepository repo, IErrorHandler errorHandler)
+        {
+            Repository = repo;
+            ErrorHandler = errorHandler;
         }
     }
 }
