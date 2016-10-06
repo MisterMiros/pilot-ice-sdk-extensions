@@ -40,6 +40,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -55,13 +56,14 @@
     <Compile Include="DeepCopies\DeepPosition.cs" />
     <Compile Include="DeepCopies\DeepTaskObject.cs" />
     <Compile Include="DeepCopies\DeepType.cs" />
+    <Compile Include="Exceptions\Exceptions.cs" />
     <Compile Include="Extensions.cs" />
+    <Compile Include="IDataObjectExtensions.cs" />
     <Compile Include="IErrorHandler.cs" />
-    <Compile Include="ObjectsExtensions\IObjectsRepositoryExtensions.cs" />
-    <Compile Include="ObjectsExtensions\ObjectGetter.cs" />
+    <Compile Include="IObjectsRepositoryExtensions.cs" />
+    <Compile Include="ITaskObjectExtensions.cs" />
+    <Compile Include="ObjectGetter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TaskExtensions\ITaskObjectExtensions.cs" />
-    <Compile Include="TaskExtensions\TaskProjectSearcher.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

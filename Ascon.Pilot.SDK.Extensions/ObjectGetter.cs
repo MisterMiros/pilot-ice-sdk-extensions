@@ -20,7 +20,7 @@ namespace Ascon.Pilot.SDK.Extensions
             Creator = creator;
         }
 
-        public static I GetObject(IObservable<I> observable, int timeout)
+        public static I GetObject(IObservable<I> observable)
         {
             var observer = new ObjectObserver();
             Thread thread = new Thread(observer.Observe);
@@ -28,7 +28,7 @@ namespace Ascon.Pilot.SDK.Extensions
             thread.IsBackground = true;
             thread.Start(observable);
 
-            observer._resetEvent.WaitOne(timeout);
+            observer._resetEvent.WaitOne(Extensions.Timeout);
             if (!observer._gotObject)
                 throw new TimeoutException("Получение объекта данных из Pilot заняло более 10 секунд");
 
@@ -46,9 +46,9 @@ namespace Ascon.Pilot.SDK.Extensions
             {
                 searcher = BaseSearcher.GetInstance();
             }
-            return Extensions.Repository.Subscribe<I>(guids).SelectMany((obl) =>
+            return Extensions.Repository.SubscribeMany<I>(guids).SelectMany((obl) =>
             {
-                I @object = GetObject(obl, TimeoutTime);
+                I @object = GetObject(obl);
                 if (Creator != null)
                 {
                     @object = Creator(@object);

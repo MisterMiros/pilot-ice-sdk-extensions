@@ -18,10 +18,16 @@ namespace Ascon.Pilot.SDK.Extensions
             get; private set;
         }
 
-        public static void Initialize(IObjectsRepository repo, IErrorHandler errorHandler)
+        public static int Timeout
+        {
+            get; private set;
+        }
+
+        public static void Initialize(IObjectsRepository repo, IErrorHandler errorHandler, int timeout = 10000)
         {
             Repository = repo;
             ErrorHandler = errorHandler;
+            Timeout = timeout;
         }
     }
 }
