@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Ascon.Pilot.SDK.Extensions.DeepCopies
 {
-    abstract class DeepCopy<I>
+    public abstract class DeepCopy<I>
     {
         protected DeepCopy() { }
         protected DeepCopy(I original) { }

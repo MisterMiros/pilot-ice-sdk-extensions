@@ -26,7 +26,7 @@ namespace Ascon.Pilot.SDK.Extensions
         public static void Initialize(IObjectsRepository repo, IErrorHandler errorHandler, int timeout = 10000)
         {
             Repository = repo;
-            ErrorHandler = errorHandler;
+            ErrorHandler = errorHandler ?? new BaseErrorHandler();
             Timeout = timeout;
         }
 
@@ -35,6 +35,13 @@ namespace Ascon.Pilot.SDK.Extensions
             Thread thread = new Thread(start);
             thread.Name = "ExtensionThread";
             thread.Start();
+        }
+
+        private class BaseErrorHandler : IErrorHandler
+        {
+            public void Handle(Exception ex)
+            {
+            }
         }
     }
 }

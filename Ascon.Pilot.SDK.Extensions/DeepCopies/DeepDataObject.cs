@@ -7,7 +7,7 @@ using Ascon.Pilot.SDK;
 
 namespace Ascon.Pilot.SDK.Extensions.DeepCopies
 {
-    class DeepDataObject : DeepCopy<IDataObject>, IDataObject
+    public class DeepDataObject : DeepCopy<IDataObject>, IDataObject
     {
         private DeepDataObject() { }
         private DeepDataObject(IDataObject original) : base(original)
@@ -16,7 +16,7 @@ namespace Ascon.Pilot.SDK.Extensions.DeepCopies
             ParentId = original.ParentId;
             Type = DeepType.CreateCopy(original.Type);
             Creator = DeepPerson.CreateCopy(original.Creator);
-            Children = new ReadOnlyCollection<Guid>(original.Children.ToList());
+            Children = new ReadOnlyCollection<Guid>(original.Children.ToArray());
             DisplayName = original.DisplayName + string.Empty;
             Created = original.Created;
             IsDeleted = original.IsDeleted;

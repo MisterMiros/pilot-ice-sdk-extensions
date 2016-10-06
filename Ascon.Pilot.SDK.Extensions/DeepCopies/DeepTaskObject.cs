@@ -6,7 +6,7 @@ using Ascon.Pilot.SDK;
 
 namespace Ascon.Pilot.SDK.Extensions.DeepCopies
 {
-    class DeepTaskObject : DeepCopy<ITaskObject>, ITaskObject
+    public class DeepTaskObject : DeepCopy<ITaskObject>, ITaskObject
     {
         private DeepTaskObject() { }
         private DeepTaskObject(ITaskObject original) : base(original)
@@ -18,8 +18,8 @@ namespace Ascon.Pilot.SDK.Extensions.DeepCopies
             State = original.State;
             Executor = DeepPerson.CreateCopy(original.Executor);
             Initiator = DeepPerson.CreateCopy(original.Initiator);
-            ExecutorAttachments = new ReadOnlyCollection<Guid>(original.ExecutorAttachments.ToList());
-            InitiatorAttachments = new ReadOnlyCollection<Guid>(original.InitiatorAttachments.ToList());
+            ExecutorAttachments = new ReadOnlyCollection<Guid>(original.ExecutorAttachments.ToArray());
+            InitiatorAttachments = new ReadOnlyCollection<Guid>(original.InitiatorAttachments.ToArray());
             IsVersion = original.IsVersion;
             Description = original.Description + string.Empty;
             Created = original.Created;

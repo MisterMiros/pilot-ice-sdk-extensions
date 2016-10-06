@@ -6,7 +6,7 @@ using Ascon.Pilot.SDK;
 
 namespace Ascon.Pilot.SDK.Extensions.Exceptions
 {
-    class TaskObjectException : Exception
+    public class TaskObjectException : Exception
     {
         public ITaskObject Task
         {
@@ -22,33 +22,33 @@ namespace Ascon.Pilot.SDK.Extensions.Exceptions
             Task = DeepCopies.DeepTaskObject.CreateCopy(task);
         }
     }
-    class InitiatorEmptyException : TaskObjectException
+    public class InitiatorEmptyException : TaskObjectException
     {
         public InitiatorEmptyException(string message, ITaskObject task) : base(message, task) { }
     }
-    class ExecutorEmptyException : TaskObjectException
+    public class ExecutorEmptyException : TaskObjectException
     {
         public ExecutorEmptyException(string message, ITaskObject task) : base(message, task) { }
     }
-    class NoAttachmentsException : TaskObjectException
+    public class NoAttachmentsException : TaskObjectException
     {
         public NoAttachmentsException(string message, ITaskObject task) : base(message, task) { }
     }
-    class NoProjectRelatedAttachmentsException : TaskObjectException
+    public class NoProjectRelatedAttachmentsException : TaskObjectException
     {
         public NoProjectRelatedAttachmentsException(string message, ITaskObject task) : base(message, task) { }
     }
-    class NoProjectCodeInTaskException : TaskObjectException
+    public class NoProjectCodeInTaskException : TaskObjectException
     {
         public NoProjectCodeInTaskException(string message, ITaskObject task) : base(message, task) { }
     }
 
-    class NoPersonException : Exception
+    public class NoPersonException : Exception
     {
         public NoPersonException(string message) : base(message) { }
     }
 
-    class PersonException : Exception
+    public class PersonException : Exception
     {
         public IPerson Person
         {
@@ -61,15 +61,15 @@ namespace Ascon.Pilot.SDK.Extensions.Exceptions
             Person = DeepCopies.DeepPerson.CreateCopy(person);
         }
     }
-    class NoChiefException : PersonException
+    public class NoChiefException : PersonException
     {
         public NoChiefException(string message, IPerson person) : base(message, person) { }
     }
-    class NoADUserExistsException : PersonException
+    public class NoADUserExistsException : PersonException
     {
         public NoADUserExistsException(string message, IPerson person) : base(message, person) { }
     }
-    class InvalidEmailException : PersonException
+    public class InvalidEmailException : PersonException
     {
         public InvalidEmailException(string message, IPerson person) : base(message, person)
         {
@@ -77,7 +77,7 @@ namespace Ascon.Pilot.SDK.Extensions.Exceptions
         }
     }
 
-    class DataObjectException : Exception
+    public class DataObjectException : Exception
     {
         public IDataObject DataObject
         {
@@ -91,12 +91,12 @@ namespace Ascon.Pilot.SDK.Extensions.Exceptions
             DataObject = DeepCopies.DeepDataObject.CreateCopy(dataObject);
         }
     }
-    class AttributeValueException : DataObjectException
+    public class AttributeValueException : DataObjectException
     {
         public AttributeValueException(string message, IDataObject dataObject) : base(message, dataObject) { }
     }
 
-    class TypeException : Exception
+    public class TypeException : Exception
     {
         public IType Type
         {
@@ -110,14 +110,14 @@ namespace Ascon.Pilot.SDK.Extensions.Exceptions
             Type = DeepCopies.DeepType.CreateCopy(_type);
         }
     }
-    class NoAttributeException : TypeException
+    public class NoAttributeException : TypeException
     {
         public NoAttributeException(string message, IType type) : base(message, type)
         {
 
         }
     }
-    class AttributeConfigurationException: TypeException
+    public class AttributeConfigurationException: TypeException
     {
         public AttributeConfigurationException(string message, IType type) : base(message, type)
         {

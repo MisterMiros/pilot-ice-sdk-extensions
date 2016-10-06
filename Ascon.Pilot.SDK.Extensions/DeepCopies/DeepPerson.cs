@@ -4,7 +4,7 @@ using Ascon.Pilot.SDK;
 
 namespace Ascon.Pilot.SDK.Extensions.DeepCopies
 {
-    class DeepPerson : DeepCopy<IPerson>, IPerson
+    public class DeepPerson : DeepCopy<IPerson>, IPerson
     {
         private DeepPerson() { }
         private DeepPerson(IPerson original) : base(original)

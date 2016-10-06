@@ -7,7 +7,7 @@ using Ascon.Pilot.SDK;
 
 namespace Ascon.Pilot.SDK.Extensions.DeepCopies
 {
-    class DeepType : DeepCopy<IType>, IType
+    public class DeepType : DeepCopy<IType>, IType
     {
         private DeepType() { }
         private DeepType(IType original) : base(original)
@@ -16,8 +16,9 @@ namespace Ascon.Pilot.SDK.Extensions.DeepCopies
             Title = original.Title + string.Empty;
             IsService = original.IsService;
             Id = original.Id;
-            Attributes = original.Attributes;
-            Children = original.Children;
+            Attributes = new ReadOnlyCollection<IAttribute>(original.Attributes.ToArray());
+            Children = new ReadOnlyCollection<int>(original.Children.ToArray());
+            IsDeleted = original.IsDeleted;
         }
 
         public string Title
@@ -64,6 +65,11 @@ namespace Ascon.Pilot.SDK.Extensions.DeepCopies
             get; private set;
         }
 
+        public bool IsDeleted
+        {
+            get; private set;
+        }
+
         public IEnumerable<IAttribute> DisplayAttributes
         {
             get
@@ -73,14 +79,6 @@ namespace Ascon.Pilot.SDK.Extensions.DeepCopies
         }
 
         public bool HasFiles
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-        }
-
-        public bool IsDeleted
         {
             get
             {

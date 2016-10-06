@@ -6,7 +6,7 @@ using Ascon.Pilot.SDK;
 
 namespace Ascon.Pilot.SDK.Extensions.DeepCopies
 {
-    class DeepPosition : DeepCopy<IPosition>, IPosition
+    public class DeepPosition : DeepCopy<IPosition>, IPosition
     {
         private DeepPosition() { }
         private DeepPosition(IPosition original) : base(original)
