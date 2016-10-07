@@ -11,8 +11,19 @@ namespace Ascon.Pilot.SDK.Extensions
     {
         public delegate I DeepCopyCreator(I original);
 
-        public DeepCopyCreator Creator { get; set; }
-        public int TimeoutTime { get; set; }
+        private DeepCopyCreator _creator;
+        public DeepCopyCreator Creator
+        {
+            get
+            {
+                return _creator ?? (orig => orig);
+            }
+            set
+            {
+                _creator = value ?? (orig => orig);
+            }
+        }
+
 
         public ObjectGetter(DeepCopyCreator creator = null)
         {
@@ -41,19 +52,12 @@ namespace Ascon.Pilot.SDK.Extensions
 
         public IEnumerable<I> GetObjects(IEnumerable<Guid> guids, IObjectSearcher<I> searcher = null)
         {
-            if (searcher == null)
-            {
-                searcher = BaseSearcher.GetInstance();
-            }
+            searcher = searcher ?? BaseSearcher.GetInstance();
             return Extensions.Repository.SubscribeMany<I>(guids).SelectMany((obl) =>
             {
                 try
                 {
-                    I @object = GetObject(obl);
-                    if (Creator != null)
-                    {
-                        @object = Creator(@object);
-                    }
+                    I @object = _creator(GetObject(obl));
                     return searcher.SearchNext(@object, this);
                 }
                 catch (Exception ex)
