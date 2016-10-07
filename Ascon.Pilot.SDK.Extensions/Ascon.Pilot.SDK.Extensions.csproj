@@ -62,13 +62,16 @@
     <Compile Include="IErrorHandler.cs" />
     <Compile Include="IObjectsRepositoryExtensions.cs" />
     <Compile Include="ITaskObjectExtensions.cs" />
+    <Compile Include="ITypeExtensions.cs" />
     <Compile Include="ObjectGetter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Queries\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
