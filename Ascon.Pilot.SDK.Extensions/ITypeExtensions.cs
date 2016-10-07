@@ -68,13 +68,12 @@ namespace Ascon.Pilot.SDK.Extensions
             return attribute;
         }
 
-        public static IDataObject GetSourceForAttribute(this IType type, string name)
+        public static XmlElement GetAttributeConfiguration(this IType type, string name)
         {
             IAttribute attribute = type.GetAttribute(name);
-
             if (string.IsNullOrWhiteSpace(attribute.Configuration))
             {
-                throw new AttributeConfigurationException($"Атрибут \"{name}\" не содержит дополнительные параметры", type);
+                throw new AttributeConfigurationException($"Атрибут \"{attribute.Name}\" не содержит дополнительные параметры", type);
             }
             XmlElement configuration;
             try
@@ -85,9 +84,14 @@ namespace Ascon.Pilot.SDK.Extensions
             }
             catch
             {
-                throw new AttributeConfigurationException($"У аттрибута \"{name}\" неверно сформированы дополнительные параметры", type);
+                throw new AttributeConfigurationException($"У аттрибута \"{attribute.Name}\" неверно сформированы дополнительные параметры", type);
             }
+            return configuration;
+        }
 
+        public static IDataObject GetSourceForAttribute(this IType type, string name)
+        {
+            XmlElement configuration = GetAttributeConfiguration(type, name);
             if (!configuration.HasAttribute("Kind") 
                 || configuration.Attributes["Kind"].Value != "Object")
             {
