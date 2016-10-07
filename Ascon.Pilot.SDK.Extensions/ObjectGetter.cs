@@ -10,12 +10,11 @@ namespace Ascon.Pilot.SDK.Extensions
     public class ObjectGetter<I> where I : class
     {
         public delegate I DeepCopyCreator(I original);
-        public delegate bool ObjectFilter(I obj);
 
         public DeepCopyCreator Creator { get; set; }
         public int TimeoutTime { get; set; }
 
-        public ObjectGetter(ObjectFilter filter = null, DeepCopyCreator creator = null)
+        public ObjectGetter(DeepCopyCreator creator = null)
         {
             Creator = creator;
         }
