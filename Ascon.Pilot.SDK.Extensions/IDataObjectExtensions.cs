@@ -46,7 +46,7 @@ namespace Ascon.Pilot.SDK.Extensions
             }
             catch
             {
-                throw new AttributeConfigurationException($"У аттрибут \"{name}\" неверно указан параметр StringFormat", type);
+                throw new AttributeConfigurationException($"У аттрибут \"{name}\" неверно указан параметр StringFormat", dataObject.Type);
             }
 
 
