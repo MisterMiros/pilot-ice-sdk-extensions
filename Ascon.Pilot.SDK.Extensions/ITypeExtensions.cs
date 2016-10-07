@@ -109,5 +109,39 @@ namespace Ascon.Pilot.SDK.Extensions
             }
             return Extensions.Repository.Get<IDataObject>(source);
         }
+
+        public static IEnumerable<IDataObject> GetAttributePossibleValues(this IType type, string name)
+        {
+            IDataObject source = GetSourceForAttribute(type, name);
+            var getter = new ObjectGetter<IDataObject>();
+            return getter.GetObjects(source.Id.ToArray(), OnlyEmtpyTypesSearcher.GetInstance());
+        } 
+
+        private class OnlyEmtpyTypesSearcher : IObjectSearcher<IDataObject>
+        {
+            private static OnlyEmtpyTypesSearcher _instance = new OnlyEmtpyTypesSearcher();
+
+            private OnlyEmtpyTypesSearcher() { }
+
+            public static OnlyEmtpyTypesSearcher GetInstance()
+            {
+                return _instance;
+            }
+
+            public IEnumerable<IDataObject> SearchNext(IDataObject @object, ObjectGetter<IDataObject> getter)
+            {
+                if (@object.Type.Children.Any())
+                {
+                    foreach (IDataObject child in getter.GetObjects(@object.Children, this))
+                    {
+                        yield return child;
+                    }
+                }
+                else
+                {
+                    yield return @object;
+                }
+            }
+        }
     }
 }
