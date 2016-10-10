@@ -10,10 +10,10 @@ namespace Ascon.Pilot.SDK.Extensions.Queries
     public static class QueriesExtensions
     {
         public static IEnumerable<IDataObject> Get
-            (this IObjectsRepository repo, string query)
+            (this IObjectsRepository repo, string query, IDataObject root = null)
         {
             var matches = Regex.Matches(query, "(>|/)([^>/]+)").Cast<Match>().ToArray();
-            IDataObject root = repo.Get<IDataObject>(SystemObjectIds.RootObjectId);
+            root = root ?? repo.Get<IDataObject>(SystemObjectIds.RootObjectId);
             return GetObjectsByMatches(repo, root, matches);
         }
 
@@ -30,7 +30,7 @@ namespace Ascon.Pilot.SDK.Extensions.Queries
             bool allChildren = typename == "*";
 
             IType type = !allChildren ? repo.GetType(typename) : null;
-            if (!@object.Type.CanContain(type))
+            if (type != null && (type.Id == -1 || !@object.Type.CanContain(type)))
             {
                 yield break;
             }

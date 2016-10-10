@@ -12,9 +12,17 @@ namespace Ascon.Pilot.SDK.Extensions
         public static IEnumerable<I> Get<I>(this IObjectsRepository repo, IEnumerable<Guid> guids)
             where I : class
         {
+            var observer = ObjectObserver<I>.Instance;
             foreach (var observable in repo.SubscribeMany<I>(guids))
             {
-                yield return ObjectObserver<I>.Instance.Observe(observable);
+                I obj;
+                try { obj = observer.Observe(observable); }
+                catch (Exception ex)
+                {
+                    Extensions.ErrorHandler.Handle(ex);
+                    continue;
+                }
+                yield return obj;
             }
             yield break;
         }
@@ -40,7 +48,7 @@ namespace Ascon.Pilot.SDK.Extensions
         public static ObjectObserver<I> Instance
         {
             get
-            {                
+            {
                 return _instance;
             }
         }
@@ -61,6 +69,9 @@ namespace Ascon.Pilot.SDK.Extensions
         public I Observe(IObservable<I> observable)
         {
             _resetEvent.Reset();
+            _unsub = null;
+            _gotObject = false;
+
             Thread thread = new Thread(() =>
             {
                 _unsub = observable.Subscribe(this);
@@ -71,14 +82,13 @@ namespace Ascon.Pilot.SDK.Extensions
 
             _resetEvent.WaitOne(Extensions.Timeout);
             if (!_gotObject)
+            {
                 throw new TimeoutException("Получение объекта данных из Pilot заняло более 10 секунд");
+            }
 
             while (_unsub == null) { }
             _unsub.Dispose();
-            _unsub = null;
-            _gotObject = false;
             thread.Abort();
-
 
             return Extensions.CreateCopy(_obj);
         }

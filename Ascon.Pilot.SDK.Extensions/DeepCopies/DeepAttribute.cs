@@ -9,7 +9,7 @@ namespace Ascon.Pilot.SDK.Extensions.DeepCopies
     {
         private DeepAttribute(IAttribute original)
         {
-            Configuration = string.Copy(original.Configuration);
+            Configuration = string.Copy(original.Configuration ?? string.Empty);
             IsObligatory = original.IsObligatory;
             IsService = original.IsService;
             Name = string.Copy(original.Name);

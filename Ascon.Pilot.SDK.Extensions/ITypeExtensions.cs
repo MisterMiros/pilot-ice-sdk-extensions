@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Xml;
 using Ascon.Pilot.SDK.Extensions.Exceptions;
+using Ascon.Pilot.SDK.Extensions.Queries;
 
 namespace Ascon.Pilot.SDK.Extensions
 {
@@ -31,6 +32,7 @@ namespace Ascon.Pilot.SDK.Extensions
             if (type.Id == id || type.Children.Contains(id)) { return true; }
             foreach (int childId in type.Children)
             {
+                if (childId == type.Id) { continue; }
                 IType child = Extensions.Repository.GetType(childId);
                 if (CanContainRec(child, id))
                 {
@@ -38,7 +40,7 @@ namespace Ascon.Pilot.SDK.Extensions
                 }
             }
             return false;
-        }       
+        }
 
         public static bool HasChild(this IType type, string name)
         {
@@ -51,9 +53,14 @@ namespace Ascon.Pilot.SDK.Extensions
             return HasChild(type, child.Id);
         }
 
-        public static bool HasChild(this IType type, int id )
+        public static bool HasChild(this IType type, int id)
         {
             return type.Children.Contains(id);
+        }
+
+        public static bool IsBase(this IType type)
+        {
+            return !type.Children.Any();
         }
 
         public static IAttribute GetAttribute(this IType type, string name)
@@ -92,22 +99,25 @@ namespace Ascon.Pilot.SDK.Extensions
         public static IDataObject GetSourceForAttribute(this IType type, string name)
         {
             XmlElement configuration = GetAttributeConfiguration(type, name);
-            if (!configuration.HasAttribute("Kind") 
+            if (!configuration.HasAttribute("Kind")
                 || configuration.Attributes["Kind"].Value != "Object")
             {
                 throw new AttributeConfigurationException($"Аттрибут \"{name}\" не ссылается на объект", type);
             }
 
             Guid source;
-            try
-            {
-                source = new Guid(configuration.Attributes["Source"].Value);
-            }
+            try { source = new Guid(configuration.Attributes["Source"].Value); }
             catch
             {
                 throw new AttributeConfigurationException($"У аттрибута \"{name}\" неверно указан параметр Source", type);
             }
             return Extensions.Repository.Get<IDataObject>(source);
+        }
+
+        public static IEnumerable<IDataObject> GetAttributePossibleValues(this IType type, string name)
+        {
+            var source = GetSourceForAttribute(type, name);
+            return Extensions.Repository.Get("/*", source).Where(obj => obj.Type.IsBase());
         }
     }
 }

@@ -16,7 +16,9 @@ namespace Ascon.Pilot.SDK.Extensions.DeepCopies
             Title = original.Title + string.Empty;
             IsService = original.IsService;
             Id = original.Id;
-            Attributes = new ReadOnlyCollection<IAttribute>(original.Attributes.ToArray());
+            Attributes = 
+                new ReadOnlyCollection<IAttribute>(
+                    original.Attributes.Select(attr=>DeepAttribute.CreateCopy(attr)).ToArray());
             Children = new ReadOnlyCollection<int>(original.Children.ToArray());
             IsDeleted = original.IsDeleted;
         }
