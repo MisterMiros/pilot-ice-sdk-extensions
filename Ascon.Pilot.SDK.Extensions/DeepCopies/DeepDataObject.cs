@@ -24,6 +24,7 @@ namespace Ascon.Pilot.SDK.Extensions.DeepCopies
             IsSecret = original.IsSecret;
             State = original.State;
             Attributes = new Dictionary<string, object>(original.Attributes);
+            TypesByChildren = new Dictionary<Guid, int>(original.TypesByChildren);
         }
 
         public static new IDataObject CreateCopy(IDataObject original)
@@ -100,6 +101,11 @@ namespace Ascon.Pilot.SDK.Extensions.DeepCopies
             get; private set;
         }
 
+        public IDictionary<Guid, int> TypesByChildren
+        {
+            get; private set;
+        }
+
 
         public IDictionary<int, IAccess> Access
         {
@@ -163,15 +169,7 @@ namespace Ascon.Pilot.SDK.Extensions.DeepCopies
             {
                 throw new NotImplementedException();
             }
-        }
-
-        public IDictionary<Guid, int> TypesByChildren
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-        }
+        }  
 
         public ReadOnlyCollection<int> Subscribers
         {
