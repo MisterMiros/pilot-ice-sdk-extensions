@@ -82,8 +82,7 @@ namespace Ascon.Pilot.SDK.Extensions.Queries
             {
                 return null;
             }
-            IDataObject directParent = Extensions.Repository.Get<IDataObject>(dataObject.ParentId);
-            return GetParentOfTypeRec(directParent, type);
+            return GetParentOfTypeRec(dataObject.GetParent(), type);
         }
 
         private static IDataObject GetParentOfTypeRec
@@ -94,8 +93,7 @@ namespace Ascon.Pilot.SDK.Extensions.Queries
             {
                 return null;
             }
-            IDataObject directParent = Extensions.Repository.Get<IDataObject>(dataObject.ParentId);
-            return GetParentOfTypeRec(directParent, type);
+            return GetParentOfTypeRec(dataObject.GetParent(), type);
         }
 
     }
