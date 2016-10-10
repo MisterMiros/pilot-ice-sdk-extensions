@@ -9,75 +9,56 @@ namespace Ascon.Pilot.SDK.Extensions.Queries
 {
     public static class QueriesExtensions
     {
-        private class QuerySearcher : IObjectSearcher<IDataObject>
+        public static IEnumerable<IDataObject> Get
+            (this IObjectsRepository repo, string query)
         {
-            private IList<Match> _query;
+            var matches = Regex.Matches(query, "(>|/)([^>/]+)").Cast<Match>().ToArray();
+            IDataObject root = repo.Get<IDataObject>(SystemObjectIds.RootObjectId);
+            return GetObjectsByMatches(repo, root, matches);
+        }
 
-            public delegate bool Filter(IDataObject dataObject);
-            private Filter _filter;
-            
-            public QuerySearcher(string query, Filter filter = null)
+        private static IEnumerable<IDataObject> GetObjectsByMatches
+            (IObjectsRepository repo, IDataObject @object, Match[] query)
+        {
+            if (!query.Any())
             {
-                _query = Regex.Matches(query, "(>|/)([^>/]+)").Cast<Match>().ToArray();
-                _filter = filter ?? ((dObj) => true);
+                yield return @object;
+                yield break;
+            }
+            char kind = query[0].Groups[1].Value[0];
+            string typename = query[0].Groups[2].Value;
+            bool allChildren = typename == "*";
+
+            IType type = !allChildren ? repo.GetType(typename) : null;
+            if (!@object.Type.CanContain(type))
+            {
+                yield break;
             }
 
-            private QuerySearcher(IEnumerable<Match> query, Filter filter = null)
+            foreach (var pair in @object.TypesByChildren)
             {
-                _query = query.ToArray();
-                _filter = filter ?? ((dObj) => true);
-            }
-
-            public IEnumerable<IDataObject> SearchNext(IDataObject @object, ObjectGetter<IDataObject> getter)
-            {
-                if (!_query.Any())
+                IDataObject child = null;
+                if (allChildren || type.Id == pair.Value)
                 {
-                    yield return @object;
-                    yield break;
-                }
-                char kind = _query[0].Groups[1].Value[0];
-                string typename = _query[0].Groups[2].Value;
-                bool allChildren = typename == "*";
-                IType type = !allChildren ? Extensions.Repository.GetType(typename) : null;
-                if (!@object.Type.CanContain(type))
-                {
-                    yield break;
-                }
-                foreach (var pair in @object.TypesByChildren)
-                {
-                    IDataObject child = null;
-                    if (allChildren || type.Id == pair.Value)
+                    child = Extensions.Repository.Get<IDataObject>(pair.Key);
+                    foreach (var dataObject in GetObjectsByMatches(repo, child, query.Skip(1).ToArray()))
                     {
-                        child = Extensions.Repository.Get<IDataObject>(pair.Key);
-                        var searcher1 = new QuerySearcher(_query.Skip(1));
-                        foreach (var dataObject in searcher1.SearchNext(child, getter))
+                        yield return dataObject;
+                    }
+                }
+                if (kind == '/')
+                {
+                    IType childType = Extensions.Repository.GetType(pair.Value);
+                    if (allChildren || childType.CanContain(type.Id))
+                    {
+                        child = child ?? Extensions.Repository.Get<IDataObject>(pair.Key);
+                        foreach (var dataObject in GetObjectsByMatches(repo, child, query))
                         {
                             yield return dataObject;
                         }
                     }
-                    if (kind == '/')
-                    {
-                        IType childType = Extensions.Repository.GetType(pair.Value);
-                        if (allChildren || childType.CanContain(type.Id))
-                        {
-                            child = child ?? Extensions.Repository.Get<IDataObject>(pair.Key);
-                            var searcher = new QuerySearcher(_query);
-                            foreach (var dataObject in searcher.SearchNext(child, getter))
-                            {
-                                yield return dataObject;
-                            }
-                        }
-                    }
                 }
             }
-        }
-
-        public static IEnumerable<IDataObject> GetObjectsByQuery
-            (this IObjectsRepository repo, string query)
-        {
-            var searcher = new QuerySearcher(query);
-            var getter = new ObjectGetter<IDataObject>();
-            return getter.GetObjects(SystemObjectIds.RootObjectId.ToArray(), searcher);
         }
     }
 }
