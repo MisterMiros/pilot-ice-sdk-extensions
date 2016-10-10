@@ -29,5 +29,15 @@ namespace Ascon.Pilot.SDK.Extensions
             }
             return value;
         }
+
+        public static IEnumerable<IDataObject> GetChildren(this IDataObject dataObject)
+        {
+            return Extensions.Repository.Get<IDataObject>(dataObject.Children);
+        }
+
+        public static IDataObject GetParent(this IDataObject dataObject)
+        {
+            return Extensions.Repository.Get<IDataObject>(dataObject.ParentId);
+        }
     }
 }
