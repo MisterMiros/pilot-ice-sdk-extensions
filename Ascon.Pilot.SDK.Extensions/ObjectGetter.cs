@@ -7,113 +7,80 @@ using System.Threading;
 
 namespace Ascon.Pilot.SDK.Extensions
 {
-    public class ObjectGetter<I> where I : class
+    public static class ObjectGetter
     {
-        public delegate I DeepCopyCreator(I original);
-
-        private DeepCopyCreator _creator;
-        public DeepCopyCreator Creator
+        public static IEnumerable<I> Get<I>(this IObjectsRepository repo, IEnumerable<Guid> guids)
+            where I : class
         {
-            get
+            foreach (var observable in repo.SubscribeMany<I>(guids))
             {
-                return _creator ?? (orig => orig);
+                yield return ObjectObserver<I>.Instance.Observe(observable);
             }
-            set
-            {
-                _creator = value ?? (orig => orig);
-            }
+            yield break;
         }
 
-
-        public ObjectGetter(DeepCopyCreator creator = null)
+        public static I Get<I>(this IObjectsRepository repo, Guid guid)
+            where I : class
         {
-            Creator = creator;
-        }
-
-        public static I GetObject(IObservable<I> observable)
-        {
-            var observer = new ObjectObserver();
-            Thread thread = new Thread(observer.Observe);
-            thread.Name = "ObjectGetter";
-            thread.IsBackground = true;
-            thread.Start(observable);
-
-            observer._resetEvent.WaitOne(Extensions.Timeout);
-            if (!observer._gotObject)
-                throw new TimeoutException("Получение объекта данных из Pilot заняло более 10 секунд");
-
-            while (observer._unsub == null) { }
-            observer._unsub.Dispose();
-
-            thread.Abort();
-
-            return observer._obj;
-        }
-
-        public IEnumerable<I> GetObjects(IEnumerable<Guid> guids, IObjectSearcher<I> searcher = null)
-        {
-            searcher = searcher ?? BaseSearcher.GetInstance();
-            return Extensions.Repository.SubscribeMany<I>(guids).SelectMany((obl) =>
-            {
-                try
-                {
-                    I @object = _creator(GetObject(obl));
-                    return searcher.SearchNext(@object, this);
-                }
-                catch (Exception ex)
-                {
-                    Extensions.ErrorHandler.Handle(ex);
-                }
-                return null;
-            });
-        }
-
-        private class ObjectObserver : IObserver<I>
-        {
-            public bool _gotObject = false;
-            public ManualResetEvent _resetEvent = new ManualResetEvent(false);
-            public I _obj = default(I);
-            public IDisposable _unsub;
-
-            public void OnNext(I obj)
-            {
-                if (!_gotObject)
-                {
-                    _obj = obj;
-                    _gotObject = true;
-                    _resetEvent.Set();
-                }
-            }
-
-            public void OnCompleted() { }
-            public void OnError(Exception ex) { }
-
-            public void Observe(object observable)
-            {
-                _unsub = ((IObservable<I>)observable).Subscribe(this);
-            }
-        }
-
-        private class BaseSearcher : IObjectSearcher<I>
-        {
-            static readonly BaseSearcher _instance = new BaseSearcher();
-            public static BaseSearcher GetInstance()
-
-            {
-                return _instance;
-            }
-
-            private BaseSearcher() { }
-
-            public IEnumerable<I> SearchNext(I @object, ObjectGetter<I> getter)
-            {
-                yield return @object;
-            }
+            return ObjectObserver<I>.Instance.Observe(repo.Subscribe<I>(guid));
         }
     }
 
-    public interface IObjectSearcher<I> where I : class
+    internal class ObjectObserver<I> : IObserver<I>
+        where I : class
     {
-        IEnumerable<I> SearchNext(I @object, ObjectGetter<I> getter);
+        public bool _gotObject;
+        public ManualResetEvent _resetEvent = new ManualResetEvent(false);
+        public I _obj;
+        public IDisposable _unsub;
+
+        private ObjectObserver() { }
+
+        static ObjectObserver<I> _instance = new ObjectObserver<I>();
+        public static ObjectObserver<I> Instance
+        {
+            get
+            {                
+                return _instance;
+            }
+        }
+
+        public void OnNext(I obj)
+        {
+            if (!_gotObject)
+            {
+                _obj = obj;
+                _gotObject = true;
+                _resetEvent.Set();
+            }
+        }
+
+        public void OnCompleted() { }
+        public void OnError(Exception ex) { }
+
+        public I Observe(IObservable<I> observable)
+        {
+            _resetEvent.Reset();
+            Thread thread = new Thread(() =>
+            {
+                _unsub = observable.Subscribe(this);
+            });
+            thread.Name = "ObjectGetter";
+            thread.IsBackground = true;
+            thread.Start();
+
+            _resetEvent.WaitOne(Extensions.Timeout);
+            if (!_gotObject)
+                throw new TimeoutException("Получение объекта данных из Pilot заняло более 10 секунд");
+
+            while (_unsub == null) { }
+            _unsub.Dispose();
+            _unsub = null;
+            _gotObject = false;
+            thread.Abort();
+
+
+            return Extensions.CreateCopy(_obj);
+        }
     }
 }

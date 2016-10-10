@@ -48,18 +48,5 @@ namespace Ascon.Pilot.SDK.Extensions
             }
             return null;
         }
-
-        public static IEnumerable<I> GetMany<I>(this IObjectsRepository repo, IEnumerable<Guid> guids)
-            where I : class
-        {
-            ObjectGetter<I> getter = new ObjectGetter<I>();
-            return getter.GetObjects(guids);
-        }
-
-        public static I Get<I>(this IObjectsRepository repo, Guid guid)
-            where I : class
-        {
-            return ObjectGetter<I>.GetObject(repo.Subscribe<I>(guid));
-        }
     }
 }
