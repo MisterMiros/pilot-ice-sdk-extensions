@@ -9,7 +9,7 @@ namespace Ascon.Pilot.SDK.Extensions.Queries
 {
     public static class QueriesExtensions
     {
-        public static IEnumerable<IDataObject> Get
+        public static IEnumerable<IDataObject> GetChildrenByQuery
             (this IObjectsRepository repo, string query, IDataObject root = null)
         {
             var matches = Regex.Matches(query, "(>|/)([^>/]+)").Cast<Match>().ToArray();
@@ -60,5 +60,43 @@ namespace Ascon.Pilot.SDK.Extensions.Queries
                 }
             }
         }
+
+        public static IDataObject GetParentOfType
+            (this IDataObject dataObject, string typename)
+        {
+            IType type = Extensions.Repository.GetType(typename);
+            return GetParentOfType(dataObject, type);
+        }
+
+        public static IDataObject GetParentOfType
+            (this IDataObject dataObject, int typeid)
+        {
+            IType type = Extensions.Repository.GetType(typeid);
+            return GetParentOfType(dataObject, type);
+        }
+
+        public static IDataObject GetParentOfType
+            (this IDataObject dataObject, IType type)
+        {
+            if (!type.CanContain(dataObject.Type))
+            {
+                return null;
+            }
+            IDataObject directParent = Extensions.Repository.Get<IDataObject>(dataObject.ParentId);
+            return GetParentOfTypeRec(directParent, type);
+        }
+
+        private static IDataObject GetParentOfTypeRec
+            (IDataObject dataObject, IType type)
+        {
+            if (type.Id == dataObject.Type.Id) { return dataObject; }
+            if (type.Id == 0)
+            {
+                return null;
+            }
+            IDataObject directParent = Extensions.Repository.Get<IDataObject>(dataObject.ParentId);
+            return GetParentOfTypeRec(directParent, type);
+        }
+
     }
 }

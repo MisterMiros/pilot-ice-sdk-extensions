@@ -117,7 +117,7 @@ namespace Ascon.Pilot.SDK.Extensions
         public static IEnumerable<IDataObject> GetAttributePossibleValues(this IType type, string name)
         {
             var source = GetSourceForAttribute(type, name);
-            return Extensions.Repository.Get("/*", source).Where(obj => obj.Type.IsBase());
+            return Extensions.Repository.GetChildrenByQuery("/*", source).Where(obj => obj.Type.IsBase());
         }
     }
 }
