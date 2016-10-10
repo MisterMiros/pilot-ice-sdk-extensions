@@ -50,6 +50,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DeepCopies\DeepAttribute.cs" />
     <Compile Include="DeepCopies\DeepCopy.cs" />
     <Compile Include="DeepCopies\DeepDataObject.cs" />
     <Compile Include="DeepCopies\DeepPerson.cs" />
