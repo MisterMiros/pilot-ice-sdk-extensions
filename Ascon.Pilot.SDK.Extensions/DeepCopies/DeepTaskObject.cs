@@ -33,7 +33,7 @@ namespace Ascon.Pilot.SDK.Extensions.DeepCopies
             Attributes = new Dictionary<string, object>(original.Attributes);
         }
 
-        public static new ITaskObject CreateCopy(ITaskObject original)
+        public static ITaskObject CreateCopy(ITaskObject original)
         {
             if (original == null || original is DeepCopy<ITaskObject>)
             {

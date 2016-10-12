@@ -16,7 +16,7 @@ namespace Ascon.Pilot.SDK.Extensions.DeepCopies
             Login = original.Login + string.Empty;
         }
 
-        public static new IPerson CreateCopy(IPerson original)
+        public static IPerson CreateCopy(IPerson original)
         {
             if (original == null || original is DeepCopy<IPerson>)
             {

@@ -33,7 +33,7 @@ namespace Ascon.Pilot.SDK.Extensions.DeepCopies
             get; private set;
         }
 
-        public static new IType CreateCopy(IType original)
+        public static IType CreateCopy(IType original)
         {
             if (original == null || original is DeepCopy<IType>)
             {

@@ -27,7 +27,7 @@ namespace Ascon.Pilot.SDK.Extensions.DeepCopies
             TypesByChildren = new Dictionary<Guid, int>(original.TypesByChildren);
         }
 
-        public static new IDataObject CreateCopy(IDataObject original)
+        public static IDataObject CreateCopy(IDataObject original)
         {
             if (original == null || original is DeepCopy<IDataObject>)
             {

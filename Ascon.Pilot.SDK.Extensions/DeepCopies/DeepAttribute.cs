@@ -14,7 +14,10 @@ namespace Ascon.Pilot.SDK.Extensions.DeepCopies
             IsService = original.IsService;
             Name = string.Copy(original.Name);
             Title = string.Copy(original.Title);
-
+            DisplayHeight = original.DisplayHeight;
+            DisplaySortOrder = original.DisplaySortOrder;
+            ShowInObjectsExplorer = original.ShowInObjectsExplorer;
+            Type = original.Type;
         }
 
         public static IAttribute CreateCopy(IAttribute original)
@@ -53,34 +56,22 @@ namespace Ascon.Pilot.SDK.Extensions.DeepCopies
 
         public int DisplayHeight
         {
-            get
-            {
-                throw new NotImplementedException();
-            }
+            get; private set;
         }
 
         public int DisplaySortOrder
         {
-            get
-            {
-                throw new NotImplementedException();
-            }
+            get; private set;
         }            
 
         public bool ShowInObjectsExplorer
         {
-            get
-            {
-                throw new NotImplementedException();
-            }
+            get; private set;
         }
 
         public AttributeType Type
         {
-            get
-            {
-                throw new NotImplementedException();
-            }
+            get; private set;
         }
     }
 }

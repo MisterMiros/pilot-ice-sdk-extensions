@@ -33,7 +33,13 @@ namespace TestExtensions
             .GetAttributePossibleValues("customer")
             .Where(obj => obj.State == DataState.Loaded)
             .ToArray();
-            string s = "1";
+            string message = "";
+            foreach (IDataObject obj in objs)
+            {
+                message += Environment.NewLine
+                    + obj.DisplayName;
+            }
+            System.Windows.MessageBox.Show(message);
         }
     }
 }

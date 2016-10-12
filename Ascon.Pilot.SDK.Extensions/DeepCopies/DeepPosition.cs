@@ -14,7 +14,7 @@ namespace Ascon.Pilot.SDK.Extensions.DeepCopies
             Order = original.Order;
             Position = original.Position;
         }
-        public static new IPosition CreateCopy(IPosition original)
+        public static IPosition CreateCopy(IPosition original)
         {
             if (original == null || original is DeepCopy<IPosition>)
             {
