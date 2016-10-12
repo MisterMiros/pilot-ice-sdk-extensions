@@ -62,6 +62,7 @@
     <Compile Include="IErrorHandler.cs" />
     <Compile Include="IObjectsRepositoryExtensions.cs" />
     <Compile Include="IPositionExtensions.cs" />
+    <Compile Include="ITaskBuilderExtensions.cs" />
     <Compile Include="ITaskObjectExtensions.cs" />
     <Compile Include="ITypeExtensions.cs" />
     <Compile Include="ObjectGetter.cs" />
