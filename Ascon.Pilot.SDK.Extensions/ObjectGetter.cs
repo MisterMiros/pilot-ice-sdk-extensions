@@ -34,7 +34,7 @@ namespace Ascon.Pilot.SDK.Extensions
         }
     }
 
-    internal class ObjectObserver<I> : IObserver<I>
+    internal class ObjectObserver<I> : IObserver<I>, IDisposable
         where I : class
     {
         public bool _gotObject;
@@ -95,5 +95,12 @@ namespace Ascon.Pilot.SDK.Extensions
                 return Extensions.CreateCopy(_obj);
             }
         }
+
+        public void Dispose()
+        {
+            _resetEvent.Dispose();
+            
+        }
+
     }
 }

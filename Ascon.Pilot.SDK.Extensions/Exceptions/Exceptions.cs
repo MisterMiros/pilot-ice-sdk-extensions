@@ -103,11 +103,11 @@ namespace Ascon.Pilot.SDK.Extensions.Exceptions
             get; private set;
         }
 
-        public TypeException(string message, IType _type) : base(message)
+        public TypeException(string message, IType type) : base(message)
         {
-            Data["Type Title"] = _type.Title;
-            Data["Type Name"] = _type.Name;
-            Type = DeepCopies.DeepType.CreateCopy(_type);
+            Data["Type Title"] = type.Title;
+            Data["Type Name"] = type.Name;
+            Type = DeepCopies.DeepType.CreateCopy(type);
         }
     }
     public class NoAttributeException : TypeException
