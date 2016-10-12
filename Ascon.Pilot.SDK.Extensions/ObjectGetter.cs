@@ -68,29 +68,32 @@ namespace Ascon.Pilot.SDK.Extensions
 
         public I Observe(IObservable<I> observable)
         {
-            _resetEvent.Reset();
-            _unsub = null;
-            _gotObject = false;
-
-            Thread thread = new Thread(() =>
+            lock (this)
             {
-                _unsub = observable.Subscribe(this);
-            });
-            thread.Name = "ObjectGetter";
-            thread.IsBackground = true;
-            thread.Start();
+                _resetEvent.Reset();
+                _unsub = null;
+                _gotObject = false;
 
-            _resetEvent.WaitOne(Extensions.Timeout);
-            if (!_gotObject)
-            {
-                throw new TimeoutException("Получение объекта данных из Pilot заняло более 10 секунд");
+                Thread thread = new Thread(() =>
+                {
+                    _unsub = observable.Subscribe(this);
+                });
+                thread.Name = "ObjectGetter";
+                thread.IsBackground = true;
+                thread.Start();
+
+                _resetEvent.WaitOne(Extensions.Timeout);
+                if (!_gotObject)
+                {
+                    throw new TimeoutException("Получение объекта данных из Pilot заняло более 10 секунд");
+                }
+
+                while (_unsub == null) { }
+                _unsub.Dispose();
+                thread.Abort();
+
+                return Extensions.CreateCopy(_obj);
             }
-
-            while (_unsub == null) { }
-            _unsub.Dispose();
-            thread.Abort();
-
-            return Extensions.CreateCopy(_obj);
         }
     }
 }
