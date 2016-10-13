@@ -7,12 +7,12 @@ namespace Ascon.Pilot.SDK.Extensions
 {
     public static class ITaskBuilderExtensions
     {
-        public static ITaskBuilder AddInitiatorAttachment(this ITaskBuilder builder, Guid id)
+        public static ITaskBuilder AddInitiatorAttachment(this ITaskBuilder builder, ITaskObject task, Guid id)
         {
             IList<Guid> attachments;
-            if (builder.TaskObject.InitiatorAttachments != null)
+            if (task.InitiatorAttachments != null)
             {
-               attachments = builder.TaskObject.InitiatorAttachments.ToList();
+               attachments = task.InitiatorAttachments.ToList();
                if (attachments.Contains(id)) { return builder; }
                 attachments.Add(id);
             }
@@ -23,12 +23,12 @@ namespace Ascon.Pilot.SDK.Extensions
             return builder.SetInitiatorAttachments(attachments);
         }
 
-        public static ITaskBuilder AddExecutorAttachment(this ITaskBuilder builder, Guid id)
+        public static ITaskBuilder AddExecutorAttachment(this ITaskBuilder builder, ITaskObject task, Guid id)
         {
             IList<Guid> attachments;
-            if (builder.TaskObject.ExecutorAttachments != null)
+            if (task.ExecutorAttachments != null)
             {
-                attachments = builder.TaskObject.ExecutorAttachments.ToList();
+                attachments = task.ExecutorAttachments.ToList();
                 if (attachments.Contains(id)) { return builder; }
                 attachments.Add(id);
             }
