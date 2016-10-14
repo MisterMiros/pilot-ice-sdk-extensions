@@ -47,10 +47,9 @@ namespace Ascon.Pilot.SDK.Extensions
     internal class ObjectObserver<I> : IObserver<I>, IDisposable
         where I : class
     {
-        public bool _gotObject;
-        public ManualResetEvent _resetEvent = new ManualResetEvent(false);
+        private bool _gotObject;
+        private ManualResetEvent _resetEvent = new ManualResetEvent(false);
         public I _obj;
-        public IDisposable _unsub;
 
         private ObjectObserver() { }
 
@@ -81,26 +80,17 @@ namespace Ascon.Pilot.SDK.Extensions
             lock (this)
             {
                 _resetEvent.Reset();
-                _unsub = null;
+                IDisposable unsub = null;
                 _gotObject = false;
 
-                Thread thread = new Thread(() =>
-                {
-                    _unsub = observable.Subscribe(this);
-                });
-                thread.Name = "ObjectGetter";
-                thread.IsBackground = true;
-                thread.Start();
-
+                unsub = observable.Subscribe(this);
                 _resetEvent.WaitOne(Extensions.Timeout);
                 if (!_gotObject)
                 {
                     throw new TimeoutException("Получение объекта данных из Pilot заняло более 10 секунд");
                 }
-
-                while (_unsub == null) { }
-                _unsub.Dispose();
-                thread.Abort();
+                while (unsub == null) { }
+                unsub.Dispose();
 
                 return Extensions.CreateCopy(_obj);
             }
@@ -109,7 +99,7 @@ namespace Ascon.Pilot.SDK.Extensions
         public void Dispose()
         {
             _resetEvent.Dispose();
-            
+
         }
 
     }
