@@ -42,19 +42,35 @@ namespace Ascon.Pilot.SDK.Extensions
             }
         }
 
+        private static bool _initialized;
+
         public static void Initialize(IObjectsRepository repo, IErrorHandler errorHandler = null, int timeout = 10000)
         {
-            Repository = repo;
-            ErrorHandler = errorHandler ?? new BaseErrorHandler();
-            Timeout = timeout;
-            UseDeepCopies = false;
+            if (!_initialized)
+            {
+                Repository = repo;
+                ErrorHandler = errorHandler ?? new BaseErrorHandler();
+                Timeout = timeout;
+                UseDeepCopies = false;
+            }
+            else
+            {
+                throw new InvalidOperationException("Расширения уже были инициализированы.");
+            }
         }
 
         public static void Start(ThreadStart start)
         {
-            Thread thread = new Thread(start);
-            thread.Name = "ExtensionThread";
-            thread.Start();
+            if (_initialized)
+            {
+                Thread thread = new Thread(start);
+                thread.Name = "ExtensionThread";
+                thread.Start();
+            }
+            else
+            {
+                throw new InvalidOperationException("Расширения не инициализированы.");
+            }
         }
 
         private class BaseErrorHandler : IErrorHandler
