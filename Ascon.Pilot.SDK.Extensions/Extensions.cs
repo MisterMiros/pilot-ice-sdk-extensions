@@ -42,7 +42,7 @@ namespace Ascon.Pilot.SDK.Extensions
             }
         }
 
-        private static bool _initialized;
+        private static bool _initialized = false;
 
         public static void Initialize(IObjectsRepository repo, IErrorHandler errorHandler = null, int timeout = 10000)
         {
@@ -52,6 +52,7 @@ namespace Ascon.Pilot.SDK.Extensions
                 ErrorHandler = errorHandler ?? new BaseErrorHandler();
                 Timeout = timeout;
                 UseDeepCopies = false;
+                _initialized = true;
             }
             else
             {

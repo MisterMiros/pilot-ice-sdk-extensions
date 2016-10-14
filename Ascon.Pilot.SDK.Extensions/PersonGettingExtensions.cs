@@ -8,7 +8,7 @@ using Ascon.Pilot.SDK.Extensions.Exceptions;
 
 namespace Ascon.Pilot.SDK.Extensions
 {
-    public static class PersonGetter
+    public static class PersonGettingExtensions
     {
         public static IEnumerable<IPerson> GetPersonByPositionName(this IObjectsRepository repo, string name)
         {

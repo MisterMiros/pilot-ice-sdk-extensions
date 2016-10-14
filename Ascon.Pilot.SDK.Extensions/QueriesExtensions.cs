@@ -5,7 +5,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using Ascon.Pilot.SDK.Extensions.DeepCopies;
 
-namespace Ascon.Pilot.SDK.Extensions.Queries
+namespace Ascon.Pilot.SDK.Extensions
 {
     public static class QueriesExtensions
     {
@@ -13,7 +13,7 @@ namespace Ascon.Pilot.SDK.Extensions.Queries
             (this IObjectsRepository repo, string query, IDataObject root = null)
         {
             var matches = Regex.Matches(query, "(>|/)([^>/]+)").Cast<Match>().ToArray();
-            root = root ?? repo.Get<IDataObject>(SystemObjectIds.RootObjectId);
+            root = root ?? repo.GetRootObjectNew();
             return GetObjectsByMatches(repo, root, matches);
         }
 
@@ -96,5 +96,29 @@ namespace Ascon.Pilot.SDK.Extensions.Queries
             return GetParentOfTypeRec(dataObject.GetParent(), type);
         }
 
+        public static IEnumerable<ITaskObject> GetTasks(this IObjectsRepository repo)
+        {
+            IDataObject root = repo.GetTaskRootObject();
+            return GetTasksRec(repo, root);
+        }
+
+        private static IEnumerable<ITaskObject> GetTasksRec(IObjectsRepository repo, IDataObject root)
+        {
+            if (root.Type.Name == SystemTypeNames.TASK)
+            {
+                yield return root.ToTask();
+                yield break;
+            }
+            else
+            {
+                foreach (var child in root.GetChildren())
+                {
+                    foreach (var task in GetTasksRec(repo, child))
+                    {
+                        yield return task;
+                    }
+                }
+            }
+        }
     }
 }

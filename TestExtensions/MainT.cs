@@ -5,7 +5,6 @@ using System.Text;
 using System.Threading.Tasks;
 using Ascon.Pilot.SDK;
 using Ascon.Pilot.SDK.Extensions;
-using Ascon.Pilot.SDK.Extensions.Queries;
 using Ascon.Pilot.SDK.Extensions.DeepCopies;
 using System.ComponentModel.Composition;
 
@@ -33,13 +32,8 @@ namespace TestExtensions
             .GetAttributePossibleValues("customer")
             .Where(obj => obj.State == DataState.Loaded)
             .ToArray();
-            string message = "";
-            foreach (IDataObject obj in objs)
-            {
-                message += Environment.NewLine
-                    + obj.DisplayName;
-            }
-            System.Windows.MessageBox.Show(message);
+            var tasks = Extensions.Repository.GetTasks().ToArray();
+            string name = "0";
         }
     }
 }

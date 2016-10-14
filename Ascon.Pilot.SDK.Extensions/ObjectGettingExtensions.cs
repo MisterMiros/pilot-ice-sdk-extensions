@@ -7,7 +7,7 @@ using System.Threading;
 
 namespace Ascon.Pilot.SDK.Extensions
 {
-    public static class ObjectGetter
+    public static class ObjectGettingExtensions
     {
         public static IEnumerable<I> Get<I>(this IObjectsRepository repo, IEnumerable<Guid> guids)
             where I : class
@@ -31,6 +31,16 @@ namespace Ascon.Pilot.SDK.Extensions
             where I : class
         {
             return ObjectObserver<I>.Instance.Observe(repo.Subscribe<I>(guid));
+        }
+
+        public static IDataObject GetRootObjectNew(this IObjectsRepository repo)
+        {
+            return repo.Get<IDataObject>(SystemObjectIds.RootObjectId);
+        }
+
+        public static IDataObject GetTaskRootObject(this IObjectsRepository repo)
+        {
+            return repo.Get<IDataObject>(SystemObjectIds.TaskRootObjectId);
         }
     }
 
