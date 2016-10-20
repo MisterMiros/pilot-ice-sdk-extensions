@@ -54,7 +54,7 @@ namespace Ascon.Pilot.SDK.Extensions
             string[] attrValues = GetAttributeValue(dataObject, name).ToString().Split(';');
             return from person in Extensions.Repository.GetPeople()
                    where attrValues.Contains(person.ActualName)
-                   select person;
+                   select Extensions.CreateCopy(person);
         }
 
         public static IEnumerable<IDataObject> GetChildren(this IDataObject dataObject)
