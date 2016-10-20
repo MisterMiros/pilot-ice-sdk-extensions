@@ -99,7 +99,6 @@ namespace Ascon.Pilot.SDK.Extensions
         public void Dispose()
         {
             _resetEvent.Dispose();
-
         }
 
     }
