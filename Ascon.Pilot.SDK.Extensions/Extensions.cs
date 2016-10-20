@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using Ascon.Pilot.SDK.Extensions.DeepCopies;
 
@@ -60,12 +61,13 @@ namespace Ascon.Pilot.SDK.Extensions
             }
         }
 
-        public static void Start(Action action)
+        public static void Start(ThreadStart action)
         {         
             if (_initialized)
             {
-                Task task = new Task(action);
-                task.Start();
+                Thread thread = new Thread(action);
+                thread.Name = "Extensions";
+                thread.Start();
             }
             else
             {
