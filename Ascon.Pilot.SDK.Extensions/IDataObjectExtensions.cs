@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Ascon.Pilot.SDK.Extensions.Exceptions;
 using System.Xml;
 
 namespace Ascon.Pilot.SDK.Extensions

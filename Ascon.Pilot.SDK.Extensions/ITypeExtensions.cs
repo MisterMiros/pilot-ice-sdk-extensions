@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Xml;
-using Ascon.Pilot.SDK.Extensions.Exceptions;
 
 namespace Ascon.Pilot.SDK.Extensions
 {

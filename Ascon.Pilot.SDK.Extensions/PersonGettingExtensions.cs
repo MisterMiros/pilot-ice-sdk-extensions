@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using Ascon.Pilot.SDK.Extensions.DeepCopies;
-using Ascon.Pilot.SDK.Extensions.Exceptions;
 
 namespace Ascon.Pilot.SDK.Extensions
 {
@@ -24,16 +23,29 @@ namespace Ascon.Pilot.SDK.Extensions
             return persons;
         }
 
-        public static IPerson GetPersonByActualName(this IObjectsRepository repo, string name)
+        public static IPerson GetPersonByDisplayName(this IObjectsRepository repo, string name)
         {
             var persons = (from person in repo.GetPeople()
-                    where person.ActualName == name
+                    where person.DisplayName == name
                     select person);
             if (!persons.Any())
             {
                 throw new NoPersonException($"Не удалось найти пользователя с именем \"{ name }\"");
             }
             return Extensions.CreateCopy(persons.First());
+        }
+
+        public static IPerson GetPersonByLogin(this IObjectsRepository repo, string login)
+        {
+            var persons = (from person in repo.GetPeople()
+                           where person.Login == login
+                           select person);
+            if (!persons.Any())
+            {
+                throw new NoPersonException($"Не удалось найти пользователя с логином \"{ login }\"");
+            }
+            return Extensions.CreateCopy(persons.First());
+
         }
     }
 }

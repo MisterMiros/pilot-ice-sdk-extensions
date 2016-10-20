@@ -85,8 +85,7 @@ namespace Ascon.Pilot.SDK.Extensions
             return GetParentOfTypeRec(dataObject.GetParent(), type);
         }
 
-        private static IDataObject GetParentOfTypeRec
-            (IDataObject dataObject, IType type)
+        private static IDataObject GetParentOfTypeRec(IDataObject dataObject, IType type)
         {
             if (type.Id == dataObject.Type.Id) { return dataObject; }
             if (type.Id == 0)
