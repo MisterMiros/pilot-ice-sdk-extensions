@@ -14,7 +14,7 @@ namespace Ascon.Pilot.SDK.Extensions.DeepCopies
         }
     }
 
-    public static class DeepCopy
+    public static class DeepCopyFactory
     {
         public static I CreateCopy<I>(I original)
             where I : class

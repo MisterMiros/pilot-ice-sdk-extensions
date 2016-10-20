@@ -26,13 +26,11 @@ namespace TestExtensions
 
         public void Start()
         {
-            var objs = //Extensions.Repository.Get(">projectfolder").ToArray(); 
-            Extensions.Repository
-            .GetType("project")
-            .GetAttributePossibleValues("customer")
-            .Where(obj => obj.State == DataState.Loaded)
-            .ToArray();
-            var tasks = Extensions.Repository.GetTasks().ToArray();
+            var objs = Extensions.Repository.GetChildrenByQuery("/project").ToArray();
+            var customers = (from obj in objs
+                            select obj.GetAttributeDataObjects("customer").ToArray()).ToArray();
+            var gips = (from obj in objs
+                        select obj.GetAttributePersons("GIP").ToArray()).ToArray();
             string name = "0";
         }
     }

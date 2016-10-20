@@ -35,7 +35,7 @@ namespace Ascon.Pilot.SDK.Extensions
         {
             if (UseDeepCopies)
             {
-                return DeepCopy.CreateCopy(original);
+                return DeepCopyFactory.CreateCopy(original);
             }
             else
             {
