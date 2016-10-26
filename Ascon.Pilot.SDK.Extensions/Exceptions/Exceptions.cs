@@ -58,4 +58,35 @@ namespace Ascon.Pilot.SDK.Extensions
 
         }
     }
+
+    public class TaskObjectException : Exception
+    {
+        public ITaskObject Task
+        {
+            get; private set;
+        }
+        public TaskObjectException(string message, ITaskObject task) : base(message)
+        {
+            Data["Task Title"] = task.DisplayTitle;
+            Data["Task Description"] = task.Description;
+            Data["Task Guid"] = task.Id;
+            try { Data["Task Initiator"] = task.Initiator.Login; } catch { }
+            try { Data["Task Executor"] = task.Executor.Login; } catch { }
+            Task = DeepCopies.DeepCopyFactory.CreateCopy(task);
+        }
+    }
+
+    public class PersonException : Exception
+    {
+        public IPerson Person
+        {
+            get; private set;
+        }
+        public PersonException(string message, IPerson person) : base(message)
+        {
+            Data["Person Name"] = person.DisplayName;
+            Data["Person Login"] = person.Login;
+            Person = DeepCopies.DeepCopyFactory.CreateCopy(person);
+        }
+    }
 }
