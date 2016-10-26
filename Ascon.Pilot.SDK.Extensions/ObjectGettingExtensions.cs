@@ -9,7 +9,9 @@ namespace Ascon.Pilot.SDK.Extensions
 {
     public static class ObjectGettingExtensions
     {
-        public static IEnumerable<I> Get<I>(this IObjectsRepository repo, IEnumerable<Guid> guids)
+        public delegate void OnException(Exception ex);
+
+        public static IEnumerable<I> Get<I>(this IObjectsRepository repo, IEnumerable<Guid> guids, OnException onException = null)
             where I : class
         {
             var observer = ObjectObserver<I>.Instance;
@@ -19,7 +21,7 @@ namespace Ascon.Pilot.SDK.Extensions
                 try { obj = observer.Observe(observable); }
                 catch (Exception ex)
                 {
-                    Extensions.ErrorHandler.Handle(ex);
+                    onException?.Invoke(ex);
                     continue;
                 }
                 yield return obj;

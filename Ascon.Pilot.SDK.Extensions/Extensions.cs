@@ -15,11 +15,6 @@ namespace Ascon.Pilot.SDK.Extensions
             get; private set;
         }
 
-        public static IErrorHandler ErrorHandler
-        {
-            get; private set;
-        }
-
         public static int Timeout
         {
             get; private set;
@@ -45,12 +40,11 @@ namespace Ascon.Pilot.SDK.Extensions
 
         private static bool _initialized = false;
 
-        public static void Initialize(IObjectsRepository repo, IErrorHandler errorHandler = null, int timeout = 10000)
+        public static void Initialize(IObjectsRepository repo, int timeout = 10000)
         {
             if (!_initialized)
             {
                 Repository = repo;
-                ErrorHandler = errorHandler ?? new BaseErrorHandler();
                 Timeout = timeout;
                 UseDeepCopies = false;
                 _initialized = true;
@@ -72,13 +66,6 @@ namespace Ascon.Pilot.SDK.Extensions
             else
             {
                 throw new InvalidOperationException("Расширения не инициализированы.");
-            }
-        }
-
-        private class BaseErrorHandler : IErrorHandler
-        {
-            public void Handle(Exception ex)
-            {
             }
         }
     }
