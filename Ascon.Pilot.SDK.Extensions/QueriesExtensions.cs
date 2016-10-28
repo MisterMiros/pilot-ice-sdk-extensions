@@ -65,34 +65,33 @@ namespace Ascon.Pilot.SDK.Extensions
             (this IDataObject dataObject, string typename)
         {
             IType type = Extensions.Repository.GetType(typename);
-            return GetParentOfType(dataObject, type);
+            return GetAncestorOfType(dataObject, type);
         }
 
         public static IDataObject GetParentOfType
             (this IDataObject dataObject, int typeid)
         {
             IType type = Extensions.Repository.GetType(typeid);
-            return GetParentOfType(dataObject, type);
+            return GetAncestorOfType(dataObject, type);
         }
 
-        public static IDataObject GetParentOfType
-            (this IDataObject dataObject, IType type)
+        public static IDataObject GetAncestorOfType(this IDataObject dataObject, IType type)
         {
             if (!type.CanContain(dataObject.Type))
             {
                 return null;
             }
-            return GetParentOfTypeRec(dataObject.GetParent(), type);
+            return GetAncestorOfTypeRec(dataObject.GetParent(), type);
         }
 
-        private static IDataObject GetParentOfTypeRec(IDataObject dataObject, IType type)
+        private static IDataObject GetAncestorOfTypeRec(IDataObject dataObject, IType type)
         {
             if (type.Id == dataObject.Type.Id) { return dataObject; }
             if (type.Id == 0)
             {
                 return null;
             }
-            return GetParentOfTypeRec(dataObject.GetParent(), type);
+            return GetAncestorOfTypeRec(dataObject.GetParent(), type);
         }
 
         public static IEnumerable<ITaskObject> GetTasks(this IObjectsRepository repo)
@@ -118,6 +117,33 @@ namespace Ascon.Pilot.SDK.Extensions
                     }
                 }
             }
+        }
+
+        public static bool IsAncestor(this IDataObject dataObject, IDataObject descendant)
+        {
+            if (!dataObject.Type.CanContain(descendant.Type))
+            {
+                return false;
+            }
+            return IsAncestorRec(dataObject, descendant);
+        }
+
+        private static bool IsAncestorRec(IDataObject dataObject, IDataObject descendant)
+        {
+            if (descendant.ParentId == dataObject.Id)
+            {
+                return true;
+            }
+            if (descendant.ParentId == SystemObjectIds.RootObjectId)
+            {
+                return false;
+            }
+            return IsAncestorRec(dataObject, descendant.GetParent());
+        }
+
+        public static bool IsDescendant(this IDataObject dataObject, IDataObject ancestor)
+        {
+            return IsAncestor(ancestor, dataObject);
         }
     }
 }
