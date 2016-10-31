@@ -19,7 +19,7 @@ namespace TestExtensions
         public MainT(IObjectsRepository repo)
         {
             _repo = repo;
-            Extensions.Initialize(repo, null);
+            Extensions.Initialize(repo);
             Extensions.UseDeepCopies = true;
             Extensions.Start(Start);
         }
