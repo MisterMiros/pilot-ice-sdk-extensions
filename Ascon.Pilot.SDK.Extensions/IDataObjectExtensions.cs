@@ -19,7 +19,6 @@ namespace Ascon.Pilot.SDK.Extensions
 
         public static object GetAttributeValue(this IDataObject dataObject, string name)
         {
-            IAttribute attribute = dataObject.Type.GetAttribute(name);
             object value;
             if (!dataObject.Attributes.TryGetValue(name, out value))
             {
