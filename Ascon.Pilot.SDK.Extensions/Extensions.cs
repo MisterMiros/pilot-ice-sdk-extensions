@@ -25,6 +25,11 @@ namespace Ascon.Pilot.SDK.Extensions
             get; set;
         }
 
+        public static IAttributeFormatParser AttributeFormatParser
+        {
+            get; private set;
+        }
+
         public static I CreateCopy<I>(I original)
             where I : class
         {
@@ -40,7 +45,7 @@ namespace Ascon.Pilot.SDK.Extensions
 
         private static bool _initialized = false;
 
-        public static void Initialize(IObjectsRepository repo, int timeout = 10000)
+        public static void Initialize(IObjectsRepository repo, IAttributeFormatParser parser = null, int timeout = 10000)
         {
             if (!_initialized)
             {
@@ -48,6 +53,7 @@ namespace Ascon.Pilot.SDK.Extensions
                 Timeout = timeout;
                 UseDeepCopies = false;
                 _initialized = true;
+                AttributeFormatParser = parser;
             }
             else
             {

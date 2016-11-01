@@ -21,34 +21,54 @@ namespace Ascon.Pilot.SDK.Extensions
         {
             IAttribute attribute = dataObject.Type.GetAttribute(name);
             object value;
-            if (!dataObject.Attributes.TryGetValue(name, out value) && attribute.IsObligatory)
+            if (!dataObject.Attributes.TryGetValue(name, out value))
             {
                 throw new AttributeValueException(
-                    $"У объекта не задан обязательный атрибут \"{name}\"", dataObject);
+                    $"Значение атрибута \"{name}\" не задано", dataObject);
             }
             return value;
         }
 
         public static IEnumerable<IDataObject> GetAttributeDataObjects(this IDataObject dataObject, string name)
         {
-            var config = dataObject.Type.GetAttributeConfiguration(name);
-            string format = config.Attributes["StringFormat"].Value;
+            string format;
+            if (Extensions.AttributeFormatParser == null)
+            {
+                var config = dataObject.Type.GetAttributeXMLConfiguration(name);
+                format = config.Attributes["StringFormat"].Value;
+            }
+            else
+            {
+                var config = dataObject.Type.GetAttributeConfiguration(name);
+                format = config.StringFormat;
+            }
             string[] attrValues = GetAttributeValue(dataObject, name).ToString().Split(';');
             IEnumerable<IDataObject> possibleValues =
                 Extensions.Repository.GetChildrenByQuery("/*", dataObject.Type.GetSourceForAttribute(name))
                 .Where(dObj => dObj.Type.IsBase());
             string message = string.Empty;
             return from possibleValue in possibleValues
-                   where attrValues.Contains(format.FormatFromDictionary(possibleValue.Attributes))
+                   where attrValues.Contains(possibleValue.FormatAttributes(format))
                    select possibleValue;
         }
 
         public static IEnumerable<IPerson> GetAttributePersons(this IDataObject dataObject, string name)
         {
-            var config = dataObject.Type.GetAttributeConfiguration(name);
-            if (config.Attributes["Kind"].Value != "OrgUnit")
+            if (Extensions.AttributeFormatParser == null)
             {
-                throw new InvalidOperationException($"Аттрибут {name} не является ссылкой на организационную структуру");
+                var config = dataObject.Type.GetAttributeXMLConfiguration(name);
+                if (!config.HasAttribute("Kind") || config.Attributes["Kind"].Value != "OrgUnit")
+                {
+                    throw new InvalidOperationException($"Аттрибут {name} не является ссылкой на организационную структуру");
+                }
+            }
+            else
+            {
+                var config = dataObject.Type.GetAttributeConfiguration(name);
+                if (config.Kind != RefBookKind.OrgUnit)
+                {
+                    throw new InvalidOperationException($"Аттрибут {name} не является ссылкой на организационную структуру");
+                }
             }
             string[] attrValues = GetAttributeValue(dataObject, name).ToString().Split(';');
             return from person in Extensions.Repository.GetPeople()
@@ -64,6 +84,18 @@ namespace Ascon.Pilot.SDK.Extensions
         public static IDataObject GetParent(this IDataObject dataObject)
         {
             return Extensions.Repository.Get<IDataObject>(dataObject.ParentId);
+        }
+
+        public static string FormatAttributes(this IDataObject dataObject, string format)
+        {
+            if (Extensions.AttributeFormatParser == null)
+            {
+                return format.FormatFromDictionary(dataObject.Attributes);
+            }
+            else
+            {
+                return Extensions.AttributeFormatParser.AttributesFormat(format, dataObject.Attributes as Dictionary<string, object>);
+            }
         }
     }
 }
