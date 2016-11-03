@@ -68,7 +68,7 @@ namespace Ascon.Pilot.SDK.Extensions
             return GetAncestorOfType(dataObject, type);
         }
 
-        public static IDataObject GetParentOfType
+        public static IDataObject GetAncestorOfType
             (this IDataObject dataObject, int typeid)
         {
             IType type = Extensions.Repository.GetType(typeid);
