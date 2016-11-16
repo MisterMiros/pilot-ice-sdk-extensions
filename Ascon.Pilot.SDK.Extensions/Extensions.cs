@@ -55,10 +55,6 @@ namespace Ascon.Pilot.SDK.Extensions
                 _initialized = true;
                 AttributeFormatParser = parser;
             }
-            else
-            {
-                throw new InvalidOperationException("Расширения уже были инициализированы.");
-            }
         }
 
         public static void Start(ThreadStart action)
@@ -68,10 +64,6 @@ namespace Ascon.Pilot.SDK.Extensions
                 Thread thread = new Thread(action);
                 thread.Name = "Extensions";
                 thread.Start();
-            }
-            else
-            {
-                throw new InvalidOperationException("Расширения не инициализированы.");
             }
         }
     }
