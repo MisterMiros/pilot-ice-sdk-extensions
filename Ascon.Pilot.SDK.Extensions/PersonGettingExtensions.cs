@@ -12,9 +12,9 @@ namespace Ascon.Pilot.SDK.Extensions
         public static IEnumerable<IPerson> GetPersonByPositionName(this IObjectsRepository repo, string name)
         {
             var persons = (from person in repo.GetPeople()
-                           where person.IsDeleted
-                                 && person.MainPosition != null
-                                 && person.MainPosition.GetOrgUnit().Title == name
+                           where !person.IsDeleted
+                                 && person.Positions.Any()
+                                 && person.Positions.Select(pos => pos.GetOrgUnit()).Any(ou => ou.Title == name)
                            select Extensions.CreateCopy(person));
             if (!persons.Any())
             {
