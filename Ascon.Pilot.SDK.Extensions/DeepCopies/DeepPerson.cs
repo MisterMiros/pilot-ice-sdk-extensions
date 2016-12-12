@@ -1,19 +1,23 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using Ascon.Pilot.SDK;
+using System.Linq;
 
 namespace Ascon.Pilot.SDK.Extensions.DeepCopies
 {
     public class DeepPerson : DeepCopy<IPerson>, IPerson
     {
-        private DeepPerson() { }
         private DeepPerson(IPerson original) : base(original)
         {
-            ActualName = original.ActualName + string.Empty;
-            DisplayName = original.DisplayName + string.Empty;
+            ActualName = original.ActualName;
+            DisplayName = original.DisplayName;
             Id = original.Id;
-            MainPosition = DeepPosition.CreateCopy(original.MainPosition);
-            Login = original.Login + string.Empty;
+            MainPosition = original.MainPosition;
+            Login = original.Login;
+            IsAdmin = original.IsAdmin;
+            IsDeleted = original.IsDeleted;
+            Positions = original.Positions;
+            Sid = original.Sid;
         }
 
         public static IPerson CreateCopy(IPerson original)
@@ -25,19 +29,32 @@ namespace Ascon.Pilot.SDK.Extensions.DeepCopies
             return new DeepPerson(original);
         }
 
-        public bool Equals(IPerson person)
-        {
-            return Id == person.Id;
-        }
-
+        string _actualName;
         public string ActualName
         {
-            get; private set;
+            get
+            {
+                return _actualName;
+            }
+            private set
+            {
+                _actualName = string.Copy(value ?? string.Empty);
+            }
         }
 
+        string _displayName;
         public string DisplayName
         {
-            get; private set;
+
+            get
+            {
+                return _displayName;
+            }
+            private set
+            {
+                _displayName = string.Copy(value ?? string.Empty);
+            }
+
         }
 
         public int Id
@@ -45,53 +62,80 @@ namespace Ascon.Pilot.SDK.Extensions.DeepCopies
             get; private set;
         }
 
+        IPosition _mainPosition;
         public IPosition MainPosition
         {
-            get; private set;
+            get
+            {
+                return _mainPosition;
+            }
+            private set
+            {
+                _mainPosition = DeepPosition.CreateCopy(value);
+            }
         }
 
+        string _login;
         public string Login
         {
-            get; private set;
+
+            get
+            {
+                return _login;
+            }
+            private set
+            {
+                _login = string.Copy(value ?? string.Empty);
+            }
+
         }
 
+        string _comment;
         public string Comment
         {
             get
             {
-                throw new NotImplementedException();
+                return _comment;
+            }
+            private set
+            {
+                _comment = string.Copy(value ?? string.Empty);
             }
         }
 
         public bool IsAdmin
         {
-            get
-            {
-                throw new NotImplementedException();
-            }
+            get; private set;
         }
 
         public bool IsDeleted
         {
-            get
-            {
-                throw new NotImplementedException();
-            }
+            get; private set;
         }
 
+        ReadOnlyCollection<IPosition> _positions;
         public ReadOnlyCollection<IPosition> Positions
         {
             get
             {
-                throw new NotImplementedException();
+                return _positions;
+            }
+            set
+            {
+                _positions = new ReadOnlyCollection<IPosition>(value.Select(pos => DeepPosition.CreateCopy(pos)).ToArray());
             }
         }
 
+        string _sid;
         public string Sid
         {
             get
             {
-                throw new NotImplementedException();
+                return _sid;
+            }
+            private set
+            {
+                _sid = string.Copy(value ?? string.Empty);
             }
         }
     }

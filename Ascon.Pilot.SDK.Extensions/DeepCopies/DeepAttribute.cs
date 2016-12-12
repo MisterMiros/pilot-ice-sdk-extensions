@@ -7,13 +7,13 @@ namespace Ascon.Pilot.SDK.Extensions.DeepCopies
 {
     public class DeepAttribute : DeepCopy<IAttribute>, IAttribute
     {
-        private DeepAttribute(IAttribute original)
+        private DeepAttribute(IAttribute original) : base(original)
         {
-            Configuration = string.Copy(original.Configuration ?? string.Empty);
+            Configuration = original.Configuration;
             IsObligatory = original.IsObligatory;
             IsService = original.IsService;
-            Name = string.Copy(original.Name);
-            Title = string.Copy(original.Title);
+            Name = original.Name;
+            Title = original.Title;
             DisplayHeight = original.DisplayHeight;
             DisplaySortOrder = original.DisplaySortOrder;
             ShowInObjectsExplorer = original.ShowInObjectsExplorer;
@@ -22,16 +22,25 @@ namespace Ascon.Pilot.SDK.Extensions.DeepCopies
 
         public static IAttribute CreateCopy(IAttribute original)
         {
-            if (original == null || original is DeepAttribute)
+            if (original == null || original is DeepCopy<IAttribute>)
             {
                 return original;
             }
             return new DeepAttribute(original);
         }
 
+
+        string _configuration;
         public string Configuration
         {
-            get; private set;
+            get
+            {
+                return _configuration;
+            }
+            private set
+            {
+                _configuration = string.Copy(value ?? string.Empty);
+            }
         }
 
         public bool IsObligatory
@@ -44,14 +53,32 @@ namespace Ascon.Pilot.SDK.Extensions.DeepCopies
             get; private set;
         }
 
+
+        string _name;
         public string Name
         {
-            get; private set;
+            get
+            {
+                return _name;
+            }
+            private set
+            {
+                _name = string.Copy(value ?? string.Empty);
+            }
         }
 
+
+        string _title;
         public string Title
         {
-            get; private set;
+            get
+            {
+                return _title;
+            }
+            private set
+            {
+                _title = string.Copy(value ?? string.Empty);
+            }
         }
 
         public int DisplayHeight

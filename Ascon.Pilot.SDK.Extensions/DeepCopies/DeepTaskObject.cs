@@ -8,29 +8,28 @@ namespace Ascon.Pilot.SDK.Extensions.DeepCopies
 {
     public class DeepTaskObject : DeepCopy<ITaskObject>, ITaskObject
     {
-        private DeepTaskObject() { }
         private DeepTaskObject(ITaskObject original) : base(original)
         {
             Id = original.Id;
-            DisplayTitle = original.DisplayTitle + string.Empty;
+            DisplayTitle = original.DisplayTitle;
             DateOfAssignment = original.DateOfAssignment;
             DeadlineDate = original.DeadlineDate;
             State = original.State;
-            Executor = DeepPerson.CreateCopy(original.Executor);
-            Initiator = DeepPerson.CreateCopy(original.Initiator);
-            ExecutorAttachments = new ReadOnlyCollection<Guid>(original.ExecutorAttachments.ToArray());
-            InitiatorAttachments = new ReadOnlyCollection<Guid>(original.InitiatorAttachments.ToArray());
+            Executor = original.Executor;
+            Initiator = original.Initiator;
+            ExecutorAttachments = original.ExecutorAttachments;
+            InitiatorAttachments =original.InitiatorAttachments;
             IsVersion = original.IsVersion;
-            Description = original.Description + string.Empty;
+            Description = original.Description;
             Created = original.Created;
             DateOfCompletion = original.DateOfCompletion;
             DateOfStart = original.DateOfStart;
             ChatId = original.ChatId;
             IsAgreementTask = original.IsAgreementTask;
-            Title = original.Title + string.Empty;
+            Title = original.Title;
             DataState = original.DataState;
             SynchronizationState = original.SynchronizationState;
-            Attributes = new Dictionary<string, object>(original.Attributes);
+            Attributes = original.Attributes;
         }
 
         public static ITaskObject CreateCopy(ITaskObject original)
@@ -42,19 +41,22 @@ namespace Ascon.Pilot.SDK.Extensions.DeepCopies
             return new DeepTaskObject(original);
         }
 
-        public bool Equals(ITaskObject taskObject)
-        {
-            return Id == taskObject.Id;
-        }
-
         public Guid Id
         {
             get; private set;
         }
 
+        string _displayTitle;
         public string DisplayTitle
         {
-            get; private set;
+            get
+            {
+                return _displayTitle;
+            }
+            private set
+            {
+                _displayTitle = string.Copy(value ?? string.Empty);
+            }
         }
 
         public DateTime DateOfAssignment
@@ -72,24 +74,56 @@ namespace Ascon.Pilot.SDK.Extensions.DeepCopies
             get; private set;
         }
 
+        IPerson _executor;
         public IPerson Executor
         {
-            get; private set;
+            get
+            {
+                return _executor;
+            }
+            private set
+            {
+                _executor = DeepPerson.CreateCopy(value);
+            }
         }
 
+        IPerson _initiator;
         public IPerson Initiator
         {
-            get; private set;
+           get
+            {
+                return _initiator;
+            }
+            private set
+            {
+                _initiator = DeepPerson.CreateCopy(value);
+            }
         }
 
+        ReadOnlyCollection<Guid> _initiatorAttachments;
         public ReadOnlyCollection<Guid> InitiatorAttachments
         {
-            get; private set;
+            get
+            {
+                return _initiatorAttachments;
+            }
+            private set
+            {
+                _initiatorAttachments = new ReadOnlyCollection<Guid>(value);
+            }
         }
 
+        ReadOnlyCollection<Guid> _executorAttachments;
         public ReadOnlyCollection<Guid> ExecutorAttachments
         {
-            get; private set;
+            get
+            {
+                return _executorAttachments;
+            }
+            private set
+            {
+                _executorAttachments = new ReadOnlyCollection<Guid>(value);
+            }
         }
 
         public bool IsVersion
@@ -97,9 +131,17 @@ namespace Ascon.Pilot.SDK.Extensions.DeepCopies
             get; private set;
         }
 
+        string _description;
         public string Description
         {
-            get; private set;
+            get
+            {
+                return _description;
+            }
+            private set
+            {
+                _description = string.Copy(value ?? string.Empty);
+            }
         }
 
         public DateTime Created
@@ -137,14 +179,42 @@ namespace Ascon.Pilot.SDK.Extensions.DeepCopies
             get; private set;
         }
 
+        string _title;
         public string Title
         {
-            get; private set;
+            get
+            {
+                return _title;
+            }
+            private set
+            {
+                _title = string.Copy(value ?? string.Empty);
+            }
         }
 
+        IDictionary<string, object> _attributes;
         public IDictionary<string, object> Attributes
         {
-            get; private set;
+            get
+            {
+                return _attributes;
+            }
+            private set
+            {
+                _attributes = value.ToDictionary(
+                    kv => string.Copy(kv.Key ?? string.Empty),
+                    kv =>
+                    {
+                        if (kv.Value is string)
+                        {
+                            return string.Copy(kv.Value as string);
+                        }
+                        else
+                        {
+                            return kv.Value;
+                        }
+                    });
+            }
         }
     }
 }

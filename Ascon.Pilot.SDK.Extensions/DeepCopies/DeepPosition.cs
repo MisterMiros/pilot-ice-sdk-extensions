@@ -8,7 +8,6 @@ namespace Ascon.Pilot.SDK.Extensions.DeepCopies
 {
     public class DeepPosition : DeepCopy<IPosition>, IPosition
     {
-        private DeepPosition() { }
         private DeepPosition(IPosition original) : base(original)
         {
             Order = original.Order;
@@ -21,11 +20,6 @@ namespace Ascon.Pilot.SDK.Extensions.DeepCopies
                 return original;
             }
             return new DeepPosition(original);
-        }
-
-        public bool Equals(IPosition position)
-        {
-            return Position == position.Position;
         }
 
         public int Order

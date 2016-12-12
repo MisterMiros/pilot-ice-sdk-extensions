@@ -49,13 +49,21 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DeepCopies\DeepAccess.cs" />
     <Compile Include="DeepCopies\DeepAttribute.cs" />
-    <Compile Include="DeepCopies\DeepCopy.cs" />
+    <Compile Include="DeepCopies\_DeepCopy.cs" />
     <Compile Include="DeepCopies\DeepDataObject.cs" />
+    <Compile Include="DeepCopies\DeepFile.cs" />
+    <Compile Include="DeepCopies\DeepFilesSnapshot.cs" />
+    <Compile Include="DeepCopies\DeepLockInfo.cs" />
+    <Compile Include="DeepCopies\DeepOrganisationUnit.cs" />
     <Compile Include="DeepCopies\DeepPerson.cs" />
     <Compile Include="DeepCopies\DeepPosition.cs" />
+    <Compile Include="DeepCopies\DeepSignature.cs" />
+    <Compile Include="DeepCopies\DeepStageObject.cs" />
     <Compile Include="DeepCopies\DeepTaskObject.cs" />
     <Compile Include="DeepCopies\DeepType.cs" />
+    <Compile Include="DeepCopies\DeepWorkflowObject.cs" />
     <Compile Include="Exceptions\Exceptions.cs" />
     <Compile Include="Extensions.cs" />
     <Compile Include="IDataObjectExtensions.cs" />

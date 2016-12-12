@@ -9,28 +9,21 @@ namespace Ascon.Pilot.SDK.Extensions.DeepCopies
 {
     public class DeepType : DeepCopy<IType>, IType
     {
-        private DeepType() { }
         private DeepType(IType original) : base(original)
         {
-            Name = original.Name + string.Empty;
-            Title = original.Title + string.Empty;
+            Name = original.Name;
+            Title = original.Title;
             IsService = original.IsService;
             Id = original.Id;
-            Attributes = 
-                new ReadOnlyCollection<IAttribute>(
-                    original.Attributes.Select(attr=>DeepAttribute.CreateCopy(attr)).ToArray());
-            Children = new ReadOnlyCollection<int>(original.Children.ToArray());
+            Attributes = original.Attributes;
+            Children = original.Children;
             IsDeleted = original.IsDeleted;
-        }
-
-        public string Title
-        {
-            get; private set;
-        }
-
-        public bool IsService
-        {
-            get; private set;
+            DisplayAttributes = original.DisplayAttributes;
+            HasFiles = original.HasFiles;
+            IsMountable = original.IsMountable;
+            Kind = original.Kind;
+            Sort = original.Sort;
+            SvgIcon = original.SvgIcon;
         }
 
         public static IType CreateCopy(IType original)
@@ -42,14 +35,35 @@ namespace Ascon.Pilot.SDK.Extensions.DeepCopies
             return new DeepType(original);
         }
 
-        public bool Equals(IType type)
+        string _title;
+        public string Title
         {
-            return Id == type.Id;
+            get
+            {
+                return _title;
+            }
+            private set
+            {
+                _title = string.Copy(value ?? string.Empty);
+            }
         }
 
-        public string Name
+        public bool IsService
         {
             get; private set;
+        }
+
+        string _name;
+        public string Name
+        {
+            get
+            {
+                return _name;
+            }
+            private set
+            {
+                _name = string.Copy(value ?? string.Empty);
+            }
         }
 
         public int Id
@@ -57,14 +71,30 @@ namespace Ascon.Pilot.SDK.Extensions.DeepCopies
             get; private set;
         }
 
+        ReadOnlyCollection<IAttribute> _attributes;
         public ReadOnlyCollection<IAttribute> Attributes
         {
-            get; private set;
+            get
+            {
+                return _attributes;
+            }
+            private set
+            {
+                _attributes = new ReadOnlyCollection<IAttribute>(value.Select(attr => DeepAttribute.CreateCopy(attr)).ToArray());
+            }
         }
 
+        ReadOnlyCollection<int> _children;
         public ReadOnlyCollection<int> Children
         {
-            get; private set;
+            get
+            {
+                return _children;
+            }
+            private set
+            {
+                _children = new ReadOnlyCollection<int>(value);
+            }
         }
 
         public bool IsDeleted
@@ -72,51 +102,49 @@ namespace Ascon.Pilot.SDK.Extensions.DeepCopies
             get; private set;
         }
 
+        IEnumerable<IAttribute> _displayAttributes;
         public IEnumerable<IAttribute> DisplayAttributes
         {
             get
             {
-                throw new NotImplementedException();
+                return _displayAttributes;
+            }
+            private set
+            {
+                _displayAttributes = value.Select(attr => DeepAttribute.CreateCopy(attr)).ToArray();
             }
         }
 
         public bool HasFiles
         {
-            get
-            {
-                throw new NotImplementedException();
-            }
+            get; private set;
         }
 
         public bool IsMountable
         {
-            get
-            {
-                throw new NotImplementedException();
-            }
+            get; private set;
         }
 
         public TypeKind Kind
         {
-            get
-            {
-                throw new NotImplementedException();
-            }
+            get; private set;
         }
 
         public int Sort
         {
-            get
-            {
-                throw new NotImplementedException();
-            }
+            get; private set;
         }
 
+        byte[] _svgIcon;
         public byte[] SvgIcon
         {
             get
             {
-                throw new NotImplementedException();
+                return _svgIcon;
+            }
+            private set
+            {
+                _svgIcon = value?.Select(b => b).ToArray();
             }
         }
     }
