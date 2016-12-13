@@ -9,32 +9,7 @@ namespace Ascon.Pilot.SDK.Extensions.DeepCopies
 {
     public class DeepDataObject : DeepCopy<IDataObject>, IDataObject
     {
-        private DeepDataObject(IDataObject original) : base(original)
-        {
-            Id = original.Id;
-            ParentId = original.ParentId;
-            Type = original.Type;
-            Creator = original.Creator;
-            Children = original.Children;
-            DisplayName = original.DisplayName;
-            Created = original.Created;
-            IsDeleted = original.IsDeleted;
-            IsInRecycleBin = original.IsInRecycleBin;
-            IsSecret = original.IsSecret;
-            State = original.State;
-            Attributes = original.Attributes;
-            TypesByChildren = original.TypesByChildren;
-            Access = original.Access;
-            ActualFileSnapshot = original.ActualFileSnapshot;
-            Files = original.Files;
-            PreviousFileSnapshots = original.PreviousFileSnapshots;
-            RelatedSourceFiles = original.RelatedSourceFiles;
-            RelatedTaskInitiatorAttachments = original.RelatedTaskInitiatorAttachments;
-            RelatedTaskMessageAttachments = original.RelatedTaskMessageAttachments;
-            SynchronizationState = original.SynchronizationState;
-            Subscribers = original.Subscribers;
-            LockInfo = original.LockInfo;
-        }
+        private DeepDataObject(IDataObject original) : base(original) { }
 
         public static IDataObject CreateCopy(IDataObject original)
         {
@@ -225,7 +200,7 @@ namespace Ascon.Pilot.SDK.Extensions.DeepCopies
             }
             private set
             {
-                _previousFileSnapshots = 
+                _previousFileSnapshots =
                     new ReadOnlyCollection<IFilesSnapshot>(value.Select(snap => DeepFilesSnapshot.CreateCopy(snap)).ToArray());
             }
         }

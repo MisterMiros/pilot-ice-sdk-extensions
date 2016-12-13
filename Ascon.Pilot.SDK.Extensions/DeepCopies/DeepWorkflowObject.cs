@@ -7,13 +7,7 @@ namespace Ascon.Pilot.SDK.Extensions.DeepCopies
 {
     public class DeepWorkflowObject : DeepCopy<IWorkflowObject>, IWorkflowObject
     {
-        private DeepWorkflowObject(IWorkflowObject original) : base(original)
-        {
-            Description = original.Description;
-            Id = original.Id;
-            InitiatorAttachments = original.InitiatorAttachments;
-            Title = original.Title;
-        }
+        private DeepWorkflowObject(IWorkflowObject original) : base(original) { }
 
         public static IWorkflowObject CreateCopy(IWorkflowObject original)
         {

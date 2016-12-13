@@ -8,29 +8,7 @@ namespace Ascon.Pilot.SDK.Extensions.DeepCopies
 {
     public class DeepTaskObject : DeepCopy<ITaskObject>, ITaskObject
     {
-        private DeepTaskObject(ITaskObject original) : base(original)
-        {
-            Id = original.Id;
-            DisplayTitle = original.DisplayTitle;
-            DateOfAssignment = original.DateOfAssignment;
-            DeadlineDate = original.DeadlineDate;
-            State = original.State;
-            Executor = original.Executor;
-            Initiator = original.Initiator;
-            ExecutorAttachments = original.ExecutorAttachments;
-            InitiatorAttachments =original.InitiatorAttachments;
-            IsVersion = original.IsVersion;
-            Description = original.Description;
-            Created = original.Created;
-            DateOfCompletion = original.DateOfCompletion;
-            DateOfStart = original.DateOfStart;
-            ChatId = original.ChatId;
-            IsAgreementTask = original.IsAgreementTask;
-            Title = original.Title;
-            DataState = original.DataState;
-            SynchronizationState = original.SynchronizationState;
-            Attributes = original.Attributes;
-        }
+        private DeepTaskObject(ITaskObject original) : base(original) { }
 
         public static ITaskObject CreateCopy(ITaskObject original)
         {
@@ -90,7 +68,7 @@ namespace Ascon.Pilot.SDK.Extensions.DeepCopies
         IPerson _initiator;
         public IPerson Initiator
         {
-           get
+            get
             {
                 return _initiator;
             }
@@ -163,7 +141,7 @@ namespace Ascon.Pilot.SDK.Extensions.DeepCopies
         {
             get; private set;
         }
-     
+
         public DataState DataState
         {
             get; private set;

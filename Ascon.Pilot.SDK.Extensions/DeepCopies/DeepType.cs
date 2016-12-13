@@ -9,22 +9,7 @@ namespace Ascon.Pilot.SDK.Extensions.DeepCopies
 {
     public class DeepType : DeepCopy<IType>, IType
     {
-        private DeepType(IType original) : base(original)
-        {
-            Name = original.Name;
-            Title = original.Title;
-            IsService = original.IsService;
-            Id = original.Id;
-            Attributes = original.Attributes;
-            Children = original.Children;
-            IsDeleted = original.IsDeleted;
-            DisplayAttributes = original.DisplayAttributes;
-            HasFiles = original.HasFiles;
-            IsMountable = original.IsMountable;
-            Kind = original.Kind;
-            Sort = original.Sort;
-            SvgIcon = original.SvgIcon;
-        }
+        private DeepType(IType original) : base(original) { }
 
         public static IType CreateCopy(IType original)
         {

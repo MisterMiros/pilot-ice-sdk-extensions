@@ -7,11 +7,7 @@ namespace Ascon.Pilot.SDK.Extensions.DeepCopies
 {
     public class DeepStageObject : DeepCopy<IStageObject>, IStageObject
     {
-        private DeepStageObject(IStageObject original) : base(original)
-        {
-            Id = original.Id;
-            Order = original.Order;
-        }
+        private DeepStageObject(IStageObject original) : base(original) { }
 
         public static IStageObject CreateCopy(IStageObject original)
         {

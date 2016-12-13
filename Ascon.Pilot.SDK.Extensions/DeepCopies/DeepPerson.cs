@@ -7,18 +7,7 @@ namespace Ascon.Pilot.SDK.Extensions.DeepCopies
 {
     public class DeepPerson : DeepCopy<IPerson>, IPerson
     {
-        private DeepPerson(IPerson original) : base(original)
-        {
-            ActualName = original.ActualName;
-            DisplayName = original.DisplayName;
-            Id = original.Id;
-            MainPosition = original.MainPosition;
-            Login = original.Login;
-            IsAdmin = original.IsAdmin;
-            IsDeleted = original.IsDeleted;
-            Positions = original.Positions;
-            Sid = original.Sid;
-        }
+        private DeepPerson(IPerson original) : base(original) { }
 
         public static IPerson CreateCopy(IPerson original)
         {

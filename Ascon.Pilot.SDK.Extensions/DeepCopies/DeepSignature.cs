@@ -5,17 +5,9 @@ using System.Text;
 
 namespace Ascon.Pilot.SDK.Extensions.DeepCopies
 {
-    public class DeepSignature: DeepCopy<ISignature>, ISignature
+    public class DeepSignature : DeepCopy<ISignature>, ISignature
     {
-        private DeepSignature(ISignature original) : base(original)
-        {
-            DatabaseId = original.DatabaseId;
-            Id = original.Id;
-            PositionId = original.PositionId;
-            RequestedSigner = original.RequestedSigner;
-            Role = original.Role;
-            Sign = original.Sign;
-        }
+        private DeepSignature(ISignature original) : base(original) { }
 
         public static ISignature CreateCopy(ISignature original)
         {

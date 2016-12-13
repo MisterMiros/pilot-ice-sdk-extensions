@@ -7,18 +7,7 @@ namespace Ascon.Pilot.SDK.Extensions.DeepCopies
 {
     public class DeepAttribute : DeepCopy<IAttribute>, IAttribute
     {
-        private DeepAttribute(IAttribute original) : base(original)
-        {
-            Configuration = original.Configuration;
-            IsObligatory = original.IsObligatory;
-            IsService = original.IsService;
-            Name = original.Name;
-            Title = original.Title;
-            DisplayHeight = original.DisplayHeight;
-            DisplaySortOrder = original.DisplaySortOrder;
-            ShowInObjectsExplorer = original.ShowInObjectsExplorer;
-            Type = original.Type;
-        }
+        private DeepAttribute(IAttribute original) : base(original) { }
 
         public static IAttribute CreateCopy(IAttribute original)
         {
@@ -89,7 +78,7 @@ namespace Ascon.Pilot.SDK.Extensions.DeepCopies
         public int DisplaySortOrder
         {
             get; private set;
-        }            
+        }
 
         public bool ShowInObjectsExplorer
         {

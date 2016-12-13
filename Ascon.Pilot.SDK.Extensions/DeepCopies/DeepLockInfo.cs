@@ -7,12 +7,7 @@ namespace Ascon.Pilot.SDK.Extensions.DeepCopies
 {
     public class DeepLockInfo : DeepCopy<ILockInfo>, ILockInfo
     {
-        private DeepLockInfo(ILockInfo original) : base(original)
-        {
-            Date = original.Date;
-            PersonId = original.PersonId;
-            State = original.State;
-        }
+        private DeepLockInfo(ILockInfo original) : base(original) { }
 
         public static ILockInfo CreateCopy(ILockInfo original)
         {

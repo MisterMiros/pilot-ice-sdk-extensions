@@ -8,14 +8,7 @@ namespace Ascon.Pilot.SDK.Extensions.DeepCopies
 {
     public class DeepOrganisationUnit : DeepCopy<IOrganisationUnit>, IOrganisationUnit
     {
-        private DeepOrganisationUnit(IOrganisationUnit original) : base(original)
-        {
-            Children = original.Children;
-            Id = original.Id;
-            IsDeleted = original.IsDeleted;
-            IsPosition = original.IsPosition;
-            Title = original.Title;
-        }
+        private DeepOrganisationUnit(IOrganisationUnit original) : base(original) { }
 
         public static IOrganisationUnit CreateCopy(IOrganisationUnit original)
         {

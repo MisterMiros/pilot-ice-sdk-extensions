@@ -7,13 +7,7 @@ namespace Ascon.Pilot.SDK.Extensions.DeepCopies
 {
     public class DeepAccess : DeepCopy<IAccess>, IAccess
     {
-        private DeepAccess(IAccess original) : base(original)
-        {
-            AccessLevel = original.AccessLevel;
-            IsInheritable = original.IsInheritable;
-            IsInherited = original.IsInherited;
-            ValidThrough = original.ValidThrough;
-        }
+        private DeepAccess(IAccess original) : base(original) { }
 
         public static IAccess CreateCopy(IAccess original)
         {
