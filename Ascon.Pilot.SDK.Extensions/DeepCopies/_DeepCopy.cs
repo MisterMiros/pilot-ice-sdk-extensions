@@ -24,55 +24,60 @@ namespace Ascon.Pilot.SDK.Extensions.DeepCopies
         public static I CreateCopy<I>(I original)
             where I : class
         {
-            if (typeof(I) == typeof(IDataObject))
+            Type type = typeof(I);
+            if (type == typeof(IDataObject))
             {
                 return DeepDataObject.CreateCopy(original as IDataObject) as I;
             }
-            if (typeof(I) == typeof(ITaskObject))
+            if (type == typeof(ITaskObject))
             {
                 return DeepTaskObject.CreateCopy(original as ITaskObject) as I;
             }
-            if (typeof(I) == typeof(IPerson))
+            if (type == typeof(IPerson))
             {
                 return DeepPerson.CreateCopy(original as IPerson) as I;
             }
-            if (typeof(I) == typeof(IType))
+            if (type == typeof(IType))
             {
                 return DeepType.CreateCopy(original as IType) as I;
             }
-            if (typeof(I) == typeof(IPosition))
+            if (type == typeof(IOrganisationUnit))
+            {
+                return DeepOrganisationUnit.CreateCopy(original as IOrganisationUnit) as I;
+            }
+            if (type == typeof(IPosition))
             {
                 return DeepPosition.CreateCopy(original as IPosition) as I;
             }
-            if (typeof(I) == typeof(IAttribute))
+            if (type == typeof(IAttribute))
             {
                 return DeepAttribute.CreateCopy(original as IAttribute) as I;
             }           
-            if (typeof(I) == typeof(IFile))
+            if (type == typeof(IFile))
             {
                 return DeepFile.CreateCopy(original as IFile) as I;
             }
-            if (typeof(I) == typeof(IFilesSnapshot))
+            if (type == typeof(IFilesSnapshot))
             {
                 return DeepFilesSnapshot.CreateCopy(original as IFilesSnapshot) as I;
             }
-            if (typeof(I) == typeof(ISignature))
+            if (type == typeof(ISignature))
             {
                 return DeepSignature.CreateCopy(original as ISignature) as I;
             }
-            if (typeof(I) == typeof(IStageObject))
+            if (type == typeof(IStageObject))
             {
                 return DeepStageObject.CreateCopy(original as IStageObject) as I;
             }
-            if (typeof(I) == typeof(IWorkflowObject))
+            if (type == typeof(IWorkflowObject))
             {
                 return DeepWorkflowObject.CreateCopy(original as IWorkflowObject) as I;
             }
-            if (typeof(I) == typeof(ILockInfo))
+            if (type == typeof(ILockInfo))
             {
                 return DeepLockInfo.CreateCopy(original as ILockInfo) as I;
             }
-            if (typeof(I) == typeof(IAccess))
+            if (type == typeof(IAccess))
             {
                 return DeepAccess.CreateCopy(original as IAccess) as I;
             }
