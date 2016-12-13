@@ -11,11 +11,7 @@ namespace Ascon.Pilot.SDK.Extensions.DeepCopies
 
         public static IAttribute CreateCopy(IAttribute original)
         {
-            if (original == null || original is DeepCopy<IAttribute>)
-            {
-                return original;
-            }
-            return new DeepAttribute(original);
+            return IsCopy(original) ? original : new DeepAttribute(original);
         }
 
 

@@ -12,11 +12,7 @@ namespace Ascon.Pilot.SDK.Extensions.DeepCopies
 
         public static IOrganisationUnit CreateCopy(IOrganisationUnit original)
         {
-            if (original == null || original is DeepCopy<IOrganisationUnit>)
-            {
-                return original;
-            }
-            return new DeepOrganisationUnit(original);
+            return IsCopy(original) ? original : new DeepOrganisationUnit(original);
         }
 
         ReadOnlyCollection<int> _children;

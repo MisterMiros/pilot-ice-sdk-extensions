@@ -11,11 +11,7 @@ namespace Ascon.Pilot.SDK.Extensions.DeepCopies
         private DeepPosition(IPosition original) : base(original) { }
         public static IPosition CreateCopy(IPosition original)
         {
-            if (original == null || original is DeepCopy<IPosition>)
-            {
-                return original;
-            }
-            return new DeepPosition(original);
+            return IsCopy(original) ? original : new DeepPosition(original);
         }
 
         public int Order

@@ -12,11 +12,7 @@ namespace Ascon.Pilot.SDK.Extensions.DeepCopies
 
         public static ITaskObject CreateCopy(ITaskObject original)
         {
-            if (original == null || original is DeepCopy<ITaskObject>)
-            {
-                return original;
-            }
-            return new DeepTaskObject(original);
+            return IsCopy(original) ? original : new DeepTaskObject(original);
         }
 
         public Guid Id

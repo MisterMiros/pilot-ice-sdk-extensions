@@ -11,11 +11,7 @@ namespace Ascon.Pilot.SDK.Extensions.DeepCopies
 
         public static IWorkflowObject CreateCopy(IWorkflowObject original)
         {
-            if (original == null || original is DeepCopy<IWorkflowObject>)
-            {
-                return original;
-            }
-            return new DeepWorkflowObject(original);
+            return IsCopy(original) ? original : new DeepWorkflowObject(original);
         }
 
         string _description;

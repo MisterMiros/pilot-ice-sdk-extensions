@@ -17,6 +17,11 @@ namespace Ascon.Pilot.SDK.Extensions.DeepCopies
                 thisProp.SetValue(this, originalProp.GetValue(original, null), null);
             }
         }
+
+        public static bool IsCopy(I original)
+        {
+            return original == null || original is DeepCopy<I>;
+        }
     }
 
     public static class DeepCopyFactory

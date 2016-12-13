@@ -13,11 +13,7 @@ namespace Ascon.Pilot.SDK.Extensions.DeepCopies
 
         public static IDataObject CreateCopy(IDataObject original)
         {
-            if (original == null || original is DeepCopy<IDataObject>)
-            {
-                return original;
-            }
-            return new DeepDataObject(original);
+            return IsCopy(original) ? original : new DeepDataObject(original);
         }
 
         public bool Equals(IDataObject dataObject)

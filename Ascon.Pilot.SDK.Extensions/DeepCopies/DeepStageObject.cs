@@ -11,11 +11,7 @@ namespace Ascon.Pilot.SDK.Extensions.DeepCopies
 
         public static IStageObject CreateCopy(IStageObject original)
         {
-            if (original == null || original is DeepCopy<IStageObject>)
-            {
-                return original;
-            }
-            return new DeepStageObject(original);
+            return IsCopy(original) ? original : new DeepStageObject(original);
         }
 
         public Guid Id

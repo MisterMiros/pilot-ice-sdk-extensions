@@ -13,11 +13,7 @@ namespace Ascon.Pilot.SDK.Extensions.DeepCopies
 
         public static IFilesSnapshot CreateCopy(IFilesSnapshot original)
         {
-            if (original == null || original is DeepCopy<IFilesSnapshot>)
-            {
-                return original;
-            }
-            return new DeepFilesSnapshot(original);
+            return IsCopy(original) ? original : new DeepFilesSnapshot(original);
         }
 
         public DateTime Created

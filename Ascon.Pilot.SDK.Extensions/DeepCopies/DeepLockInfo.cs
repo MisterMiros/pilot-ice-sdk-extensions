@@ -11,11 +11,7 @@ namespace Ascon.Pilot.SDK.Extensions.DeepCopies
 
         public static ILockInfo CreateCopy(ILockInfo original)
         {
-            if (original == null || original is DeepCopy<ILockInfo>)
-            {
-                return original;
-            }
-            return new DeepLockInfo(original);
+            return IsCopy(original) ? original : new DeepLockInfo(original);
         }
 
         public DateTime Date

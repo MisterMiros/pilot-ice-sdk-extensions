@@ -11,11 +11,7 @@ namespace Ascon.Pilot.SDK.Extensions.DeepCopies
 
         public static ISignature CreateCopy(ISignature original)
         {
-            if (original == null || original is DeepCopy<ISignature>)
-            {
-                return original;
-            }
-            return new DeepSignature(original);
+            return IsCopy(original) ? original : new DeepSignature(original);
         }
 
         public Guid DatabaseId

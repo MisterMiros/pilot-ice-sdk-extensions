@@ -11,11 +11,7 @@ namespace Ascon.Pilot.SDK.Extensions.DeepCopies
 
         public static IAccess CreateCopy(IAccess original)
         {
-            if (original == null || original is DeepCopy<IAccess>)
-            {
-                return original;
-            }
-            return new DeepAccess(original);
+            return IsCopy(original) ? original : new DeepAccess(original);
         }
 
         public AccessLevel AccessLevel

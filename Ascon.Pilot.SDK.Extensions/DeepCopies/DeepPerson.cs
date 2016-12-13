@@ -11,11 +11,7 @@ namespace Ascon.Pilot.SDK.Extensions.DeepCopies
 
         public static IPerson CreateCopy(IPerson original)
         {
-            if (original == null || original is DeepCopy<IPerson>)
-            {
-                return original;
-            }
-            return new DeepPerson(original);
+            return IsCopy(original) ? original : new DeepPerson(original);
         }
 
         string _actualName;

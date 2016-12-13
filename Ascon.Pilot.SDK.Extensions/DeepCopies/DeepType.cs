@@ -13,11 +13,7 @@ namespace Ascon.Pilot.SDK.Extensions.DeepCopies
 
         public static IType CreateCopy(IType original)
         {
-            if (original == null || original is DeepCopy<IType>)
-            {
-                return original;
-            }
-            return new DeepType(original);
+            return IsCopy(original) ? original : new DeepType(original);
         }
 
         string _title;
