@@ -19,12 +19,8 @@ namespace Ascon.Pilot.SDK.Extensions
 
         public static object GetAttributeValue(this IDataObject dataObject, string name)
         {
-            object value;
-            if (!dataObject.Attributes.TryGetValue(name, out value))
-            {
-                throw new AttributeValueException(
-                    $"Значение атрибута \"{name}\" не задано", dataObject);
-            }
+            object value = null;
+            dataObject.Attributes.TryGetValue(name, out value);
             return value;
         }
 

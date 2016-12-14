@@ -12,12 +12,12 @@ namespace Ascon.Pilot.SDK.Extensions
     {
         public static IObjectsRepository Repository
         {
-            get; private set;
+            get; set;
         }
 
         public static int Timeout
         {
-            get; private set;
+            get; set;
         }
 
         public static bool UseDeepCopies
@@ -27,7 +27,7 @@ namespace Ascon.Pilot.SDK.Extensions
 
         public static IAttributeFormatParser AttributeFormatParser
         {
-            get; private set;
+            get; set;
         }
 
         public static I CreateCopy<I>(I original)
@@ -43,28 +43,16 @@ namespace Ascon.Pilot.SDK.Extensions
             }
         }
 
-        private static bool _initialized = false;
-
-        public static void Initialize(IObjectsRepository repo, IAttributeFormatParser parser = null, int timeout = 10000)
-        {
-            if (!_initialized)
-            {
-                Repository = repo;
-                Timeout = timeout;
-                UseDeepCopies = false;
-                _initialized = true;
-                AttributeFormatParser = parser;
-            }
-        }
-
-        public static void Start(ThreadStart action)
+        public static bool Start(ThreadStart action)
         {         
-            if (_initialized)
+            if (Repository != null)
             {
                 Thread thread = new Thread(action);
                 thread.Name = "Extensions";
                 thread.Start();
+                return true;
             }
+            return false;
         }
     }
 }

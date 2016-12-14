@@ -66,20 +66,19 @@
     <Compile Include="DeepCopies\DeepWorkflowObject.cs" />
     <Compile Include="Exceptions\Exceptions.cs" />
     <Compile Include="Extensions.cs" />
-    <Compile Include="IDataObjectExtensions.cs" />
-    <Compile Include="IErrorHandler.cs" />
-    <Compile Include="IObjectsRepositoryExtensions.cs" />
-    <Compile Include="IOrganisationUnitExtensions.cs" />
-    <Compile Include="IPersonExtensions.cs" />
-    <Compile Include="IPositionExtensions.cs" />
-    <Compile Include="ITaskBuilderExtensions.cs" />
-    <Compile Include="ITaskObjectExtensions.cs" />
-    <Compile Include="ITypeExtensions.cs" />
-    <Compile Include="ObjectGettingExtensions.cs" />
-    <Compile Include="PersonGettingExtensions.cs" />
+    <Compile Include="Interfaces Extensions\IDataObjectExtensions.cs" />
+    <Compile Include="Interfaces Extensions\IObjectsRepositoryExtensions.cs" />
+    <Compile Include="Interfaces Extensions\IOrganisationUnitExtensions.cs" />
+    <Compile Include="Interfaces Extensions\IPersonExtensions.cs" />
+    <Compile Include="Interfaces Extensions\IPositionExtensions.cs" />
+    <Compile Include="Interfaces Extensions\ITaskBuilderExtensions.cs" />
+    <Compile Include="Interfaces Extensions\ITaskObjectExtensions.cs" />
+    <Compile Include="Interfaces Extensions\ITypeExtensions.cs" />
+    <Compile Include="Other Extensions\ObjectGettingExtensions.cs" />
+    <Compile Include="Other Extensions\PersonGettingExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="QueriesExtensions.cs" />
-    <Compile Include="Utilities.cs" />
+    <Compile Include="Other Extensions\QueriesExtensions.cs" />
+    <Compile Include="Other Extensions\Utilities.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

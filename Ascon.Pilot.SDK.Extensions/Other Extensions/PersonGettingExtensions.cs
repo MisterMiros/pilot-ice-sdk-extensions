@@ -27,7 +27,7 @@ namespace Ascon.Pilot.SDK.Extensions
         {
             var persons = (from person in repo.GetPeople()
                     where person.DisplayName == name
-                    select person);
+                    select Extensions.CreateCopy(person));
             if (!persons.Any())
             {
                 throw new NoPersonException($"Не удалось найти пользователя с именем \"{ name }\"");
@@ -39,7 +39,7 @@ namespace Ascon.Pilot.SDK.Extensions
         {
             var persons = (from person in repo.GetPeople()
                            where person.Login == login
-                           select person);
+                           select Extensions.CreateCopy(person));
             if (!persons.Any())
             {
                 throw new NoPersonException($"Не удалось найти пользователя с логином \"{ login }\"");
