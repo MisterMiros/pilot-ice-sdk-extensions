@@ -68,4 +68,12 @@ namespace Ascon.Pilot.SDK.Extensions.DeepCopies
             }
         }
     }
+
+    public static class ISignatureDeepCopyExtension
+    {
+        public static ISignature Copy(this ISignature original)
+        {
+            return DeepSignature.CreateCopy(original);
+        }
+    }
 }

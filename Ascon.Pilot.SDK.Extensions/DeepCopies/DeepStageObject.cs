@@ -24,4 +24,12 @@ namespace Ascon.Pilot.SDK.Extensions.DeepCopies
             get; private set;
         }
     }
+
+    public static class IStageObjectDeepCopyExtension
+    {
+        public static IStageObject Copy(this IStageObject original)
+        {
+            return DeepStageObject.CreateCopy(original);
+        }
+    }
 }

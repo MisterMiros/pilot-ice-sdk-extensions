@@ -86,4 +86,12 @@ namespace Ascon.Pilot.SDK.Extensions.DeepCopies
             get; private set;
         }
     }
+
+    public static class IAttributeDeepCopyExtension
+    {
+        public static IAttribute Copy(this IAttribute original)
+        {
+            return DeepAttribute.CreateCopy(original);
+        }
+    }
 }

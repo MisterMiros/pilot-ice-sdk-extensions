@@ -53,4 +53,12 @@ namespace Ascon.Pilot.SDK.Extensions.DeepCopies
             }
         }
     }
+
+    public static class IFilesSnapshotDeepCopyExtension
+    {
+        public static IFilesSnapshot Copy(this IFilesSnapshot original)
+        {
+            return DeepFilesSnapshot.CreateCopy(original);
+        }
+    }
 }

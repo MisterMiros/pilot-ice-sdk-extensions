@@ -57,6 +57,13 @@ namespace Ascon.Pilot.SDK.Extensions.DeepCopies
                 _title = string.Copy(value ?? string.Empty);
             }
         }
+    }
 
+    public static class IWorkflowObjectDeepCopyExtension
+    {
+        public static IWorkflowObject Copy(this IWorkflowObject original)
+        {
+            return DeepWorkflowObject.CreateCopy(original);
+        }
     }
 }

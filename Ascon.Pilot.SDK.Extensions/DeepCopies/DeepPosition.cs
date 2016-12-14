@@ -24,4 +24,12 @@ namespace Ascon.Pilot.SDK.Extensions.DeepCopies
             get; private set;
         }
     }
+
+    public static class IPositionDeepCopyExtension
+    {
+        public static IPosition Copy(this IPosition original)
+        {
+            return DeepPosition.CreateCopy(original);
+        }
+    }
 }

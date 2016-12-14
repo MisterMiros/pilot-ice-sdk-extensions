@@ -29,4 +29,12 @@ namespace Ascon.Pilot.SDK.Extensions.DeepCopies
             get; private set;
         }
     }
+
+    public static class ILockInfoDeepCopyExtension
+    {
+        public static ILockInfo Copy(this ILockInfo original)
+        {
+            return DeepLockInfo.CreateCopy(original);
+        }
+    }
 }

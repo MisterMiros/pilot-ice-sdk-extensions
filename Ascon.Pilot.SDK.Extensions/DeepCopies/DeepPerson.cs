@@ -124,4 +124,12 @@ namespace Ascon.Pilot.SDK.Extensions.DeepCopies
             }
         }
     }
+
+    public static class IPersonDeepCopyExtension
+    {
+        public static IPerson Copy(this IPerson original)
+        {
+            return DeepPerson.CreateCopy(original);
+        }
+    }
 }

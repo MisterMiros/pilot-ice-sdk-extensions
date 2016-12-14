@@ -129,4 +129,12 @@ namespace Ascon.Pilot.SDK.Extensions.DeepCopies
             }
         }
     }
+
+    public static class ITypeDeepCopyExtension
+    {
+        public static IType Copy(this IType original)
+        {
+            return DeepType.CreateCopy(original);
+        }
+    }
 }

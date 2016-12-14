@@ -82,4 +82,12 @@ namespace Ascon.Pilot.SDK.Extensions.DeepCopies
             get; private set;
         }
     }
+
+    public static class IFileDeepCopyExtension
+    {
+        public static IFile Copy(this IFile original)
+        {
+            return DeepFile.CreateCopy(original);
+        }
+    }
 }

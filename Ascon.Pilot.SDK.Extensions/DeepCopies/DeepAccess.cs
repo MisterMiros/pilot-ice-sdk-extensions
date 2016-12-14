@@ -34,4 +34,12 @@ namespace Ascon.Pilot.SDK.Extensions.DeepCopies
             get; private set;
         }
     }
+
+    public static class IAccessDeepCopyExtension
+    {
+        public static IAccess Copy(this IAccess original)
+        {
+            return DeepAccess.CreateCopy(original);
+        }
+    }
 }

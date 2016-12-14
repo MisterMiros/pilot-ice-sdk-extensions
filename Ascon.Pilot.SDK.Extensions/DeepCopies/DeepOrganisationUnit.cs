@@ -56,4 +56,12 @@ namespace Ascon.Pilot.SDK.Extensions.DeepCopies
             }
         }
     }
+
+    public static class IOrganisationUnitDeepCopyExtension
+    {
+        public static IOrganisationUnit Copy(this IOrganisationUnit original)
+        {
+            return DeepOrganisationUnit.CreateCopy(original);
+        }
+    }
 }

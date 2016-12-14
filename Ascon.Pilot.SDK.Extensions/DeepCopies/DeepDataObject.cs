@@ -271,4 +271,12 @@ namespace Ascon.Pilot.SDK.Extensions.DeepCopies
             }
         }
     }
+
+    public static class IDataObjectDeepCopyExtension
+    {
+        public static IDataObject Copy(this IDataObject original)
+        {
+            return DeepDataObject.CreateCopy(original);
+        }
+    }
 }
