@@ -31,12 +31,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Ascon.Pilot.SDK, Version=16.0.37.10978, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Ascon.Pilot.SDK.16.0.37.0\lib\net40-Client\Ascon.Pilot.SDK.dll</HintPath>
+    <Reference Include="Ascon.Pilot.SDK, Version=16.0.41.12495, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Ascon.Pilot.SDK.16.0.41.0\lib\net40-Client\Ascon.Pilot.SDK.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Ascon.Pilot.Theme, Version=16.0.37.10978, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Ascon.Pilot.SDK.16.0.37.0\lib\net40-Client\Ascon.Pilot.Theme.dll</HintPath>
+    <Reference Include="Ascon.Pilot.Theme, Version=16.0.41.12495, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Ascon.Pilot.SDK.16.0.41.0\lib\net40-Client\Ascon.Pilot.Theme.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />

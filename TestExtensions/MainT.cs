@@ -19,7 +19,8 @@ namespace TestExtensions
         public MainT(IObjectsRepository repo, IAttributeFormatParser parser)
         {
             _repo = repo;
-            Extensions.Initialize(repo, parser);
+            Extensions.AttributeFormatParser = parser;
+            Extensions.Repository = repo;
             Extensions.UseDeepCopies = true;
             Extensions.Start(Start);
         }
@@ -29,6 +30,8 @@ namespace TestExtensions
             var objs = Extensions.Repository.GetChildrenByQuery("/project").Select(obj => DeepDataObject.CreateCopy(obj)).ToArray();
             var people = _repo.GetPeople().Select(person => DeepPerson.CreateCopy(person)).ToArray();
             var org = _repo.GetOrganisationUnits().Select(ou => DeepOrganisationUnit.CreateCopy(ou)).ToArray();
+            var org2 = org.Select(ou => DeepOrganisationUnit.CreateCopy(ou)).ToArray();
+            var zip = org.Zip(org2, (ou1, ou2) => ReferenceEquals(ou1, ou2));
             string name = "0";
         }
     }
