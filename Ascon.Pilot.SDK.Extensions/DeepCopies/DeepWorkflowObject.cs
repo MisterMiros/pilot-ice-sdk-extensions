@@ -9,6 +9,7 @@ namespace Ascon.Pilot.SDK.Extensions.DeepCopies
     {
         private DeepWorkflowObject(IWorkflowObject original) : base(original) { }
 
+        [DeepCopyCreator(typeof(IWorkflowObject))]
         public static IWorkflowObject CreateCopy(IWorkflowObject original)
         {
             return IsCopy(original) ? original : new DeepWorkflowObject(original);
@@ -23,7 +24,7 @@ namespace Ascon.Pilot.SDK.Extensions.DeepCopies
             }
             private set
             {
-                _description = string.Copy(value);
+                _description = string.Copy(value ?? string.Empty);
             }
         }
 

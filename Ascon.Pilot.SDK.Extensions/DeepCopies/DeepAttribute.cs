@@ -9,6 +9,7 @@ namespace Ascon.Pilot.SDK.Extensions.DeepCopies
     {
         private DeepAttribute(IAttribute original) : base(original) { }
 
+        [DeepCopyCreator(typeof(IAttribute))]
         public static IAttribute CreateCopy(IAttribute original)
         {
             return IsCopy(original) ? original : new DeepAttribute(original);

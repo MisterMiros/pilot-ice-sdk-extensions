@@ -9,6 +9,7 @@ namespace Ascon.Pilot.SDK.Extensions.DeepCopies
     {
         private DeepSignature(ISignature original) : base(original) { }
 
+        [DeepCopyCreator(typeof(ISignature))]
         public static ISignature CreateCopy(ISignature original)
         {
             return IsCopy(original) ? original : new DeepSignature(original);

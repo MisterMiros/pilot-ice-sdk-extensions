@@ -10,7 +10,7 @@ namespace Ascon.Pilot.SDK.Extensions.DeepCopies
     {
         private DeepFilesSnapshot(IFilesSnapshot original) : base(original) { }
 
-
+        [DeepCopyCreator(typeof(IFilesSnapshot))]
         public static IFilesSnapshot CreateCopy(IFilesSnapshot original)
         {
             return IsCopy(original) ? original : new DeepFilesSnapshot(original);
@@ -36,7 +36,7 @@ namespace Ascon.Pilot.SDK.Extensions.DeepCopies
             private set
             {
                 _files =
-                    new ReadOnlyCollection<IFile>(value.Select(file => DeepFile.CreateCopy(file)).ToArray());
+                    new ReadOnlyCollection<IFile>(value.Select(file => file.Copy()).ToArray());
             }
         }
 

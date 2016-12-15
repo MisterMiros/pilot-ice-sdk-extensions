@@ -9,6 +9,7 @@ namespace Ascon.Pilot.SDK.Extensions.DeepCopies
     {
         private DeepStageObject(IStageObject original) : base(original) { }
 
+        [DeepCopyCreator(typeof(IStageObject))]
         public static IStageObject CreateCopy(IStageObject original)
         {
             return IsCopy(original) ? original : new DeepStageObject(original);

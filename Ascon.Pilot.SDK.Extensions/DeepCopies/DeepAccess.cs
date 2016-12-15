@@ -9,6 +9,7 @@ namespace Ascon.Pilot.SDK.Extensions.DeepCopies
     {
         private DeepAccess(IAccess original) : base(original) { }
 
+        [DeepCopyCreator(typeof(IAccess))]
         public static IAccess CreateCopy(IAccess original)
         {
             return IsCopy(original) ? original : new DeepAccess(original);

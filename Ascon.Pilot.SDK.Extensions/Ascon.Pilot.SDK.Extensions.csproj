@@ -51,6 +51,8 @@
   <ItemGroup>
     <Compile Include="DeepCopies\DeepAccess.cs" />
     <Compile Include="DeepCopies\DeepAttribute.cs" />
+    <Compile Include="DeepCopies\DeepStorageDataObject.cs" />
+    <Compile Include="DeepCopies\DeepTaskMessage.cs" />
     <Compile Include="DeepCopies\_DeepCopy.cs" />
     <Compile Include="DeepCopies\DeepDataObject.cs" />
     <Compile Include="DeepCopies\DeepFile.cs" />
@@ -71,9 +73,12 @@
     <Compile Include="Interfaces Extensions\IOrganisationUnitExtensions.cs" />
     <Compile Include="Interfaces Extensions\IPersonExtensions.cs" />
     <Compile Include="Interfaces Extensions\IPositionExtensions.cs" />
+    <Compile Include="Interfaces Extensions\IStageObjectExceptions.cs" />
     <Compile Include="Interfaces Extensions\ITaskBuilderExtensions.cs" />
+    <Compile Include="Interfaces Extensions\ITaskMessageExtensions.cs" />
     <Compile Include="Interfaces Extensions\ITaskObjectExtensions.cs" />
     <Compile Include="Interfaces Extensions\ITypeExtensions.cs" />
+    <Compile Include="Interfaces Extensions\IWorkflowObjectExtensions.cs" />
     <Compile Include="Other Extensions\ObjectGettingExtensions.cs" />
     <Compile Include="Other Extensions\PersonGettingExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

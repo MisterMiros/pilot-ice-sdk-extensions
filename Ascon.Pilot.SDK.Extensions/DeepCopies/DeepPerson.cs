@@ -9,6 +9,7 @@ namespace Ascon.Pilot.SDK.Extensions.DeepCopies
     {
         private DeepPerson(IPerson original) : base(original) { }
 
+        [DeepCopyCreator(typeof(IPerson))]
         public static IPerson CreateCopy(IPerson original)
         {
             return IsCopy(original) ? original : new DeepPerson(original);
@@ -56,7 +57,7 @@ namespace Ascon.Pilot.SDK.Extensions.DeepCopies
             }
             private set
             {
-                _mainPosition = DeepPosition.CreateCopy(value);
+                _mainPosition = value.Copy();
             }
         }
 
@@ -107,7 +108,7 @@ namespace Ascon.Pilot.SDK.Extensions.DeepCopies
             }
             set
             {
-                _positions = new ReadOnlyCollection<IPosition>(value.Select(pos => DeepPosition.CreateCopy(pos)).ToArray());
+                _positions = new ReadOnlyCollection<IPosition>(value.Select(pos => pos.Copy()).ToArray());
             }
         }
 

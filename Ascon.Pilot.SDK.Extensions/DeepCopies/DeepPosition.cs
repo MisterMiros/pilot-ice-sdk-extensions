@@ -9,6 +9,8 @@ namespace Ascon.Pilot.SDK.Extensions.DeepCopies
     public class DeepPosition : DeepCopy<IPosition>, IPosition
     {
         private DeepPosition(IPosition original) : base(original) { }
+
+        [DeepCopyCreator(typeof(IPosition))]
         public static IPosition CreateCopy(IPosition original)
         {
             return IsCopy(original) ? original : new DeepPosition(original);

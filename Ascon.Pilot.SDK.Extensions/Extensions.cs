@@ -30,6 +30,12 @@ namespace Ascon.Pilot.SDK.Extensions
             get; set;
         }
 
+        static Extensions()
+        {
+            Timeout = 10000;
+            UseDeepCopies = false;
+        }
+
         public static I CreateCopy<I>(I original)
             where I : class
         {

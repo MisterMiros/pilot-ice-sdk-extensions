@@ -11,6 +11,7 @@ namespace Ascon.Pilot.SDK.Extensions.DeepCopies
     {
         private DeepType(IType original) : base(original) { }
 
+        [DeepCopyCreator(typeof(IType))]
         public static IType CreateCopy(IType original)
         {
             return IsCopy(original) ? original : new DeepType(original);
@@ -92,7 +93,7 @@ namespace Ascon.Pilot.SDK.Extensions.DeepCopies
             }
             private set
             {
-                _displayAttributes = value.Select(attr => DeepAttribute.CreateCopy(attr)).ToArray();
+                _displayAttributes = value.Select(attr => attr.Copy()).ToArray();
             }
         }
 

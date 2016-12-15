@@ -26,11 +26,29 @@ namespace Ascon.Pilot.SDK.Extensions.DeepCopies
 
     public static class DeepCopyFactory
     {
+        static readonly IDictionary<Type, MethodBase> _copyCreators;
+        static DeepCopyFactory()
+        {
+            var methods = Assembly.GetExecutingAssembly()
+                    .GetTypes()
+                    .SelectMany(type => type.GetMethods(BindingFlags.Static | BindingFlags.Public))
+                    .Where(method => method.GetParameters().Count() == 1 && method.IsDefined(typeof(DeepCopyCreator), false));
+            _copyCreators = new Dictionary<Type, MethodBase>();
+            foreach (var method in methods)
+            {
+                Type type = (method.GetCustomAttributes(typeof(DeepCopyCreator), false).Single() as DeepCopyCreator).Type;
+                _copyCreators[type] = method;
+            }
+        }
+
         public static I CreateCopy<I>(I original)
             where I : class
         {
             Type type = typeof(I);
-            if (type == typeof(IDataObject))
+            if (!_copyCreators.ContainsKey(type)) { return original; }
+            return _copyCreators[type]?.Invoke(null, new object[] { original }) as I;
+
+            /*if (type == typeof(IDataObject))
             {
                 return DeepDataObject.CreateCopy(original as IDataObject) as I;
             }
@@ -57,7 +75,7 @@ namespace Ascon.Pilot.SDK.Extensions.DeepCopies
             if (type == typeof(IAttribute))
             {
                 return DeepAttribute.CreateCopy(original as IAttribute) as I;
-            }           
+            }
             if (type == typeof(IFile))
             {
                 return DeepFile.CreateCopy(original as IFile) as I;
@@ -86,7 +104,32 @@ namespace Ascon.Pilot.SDK.Extensions.DeepCopies
             {
                 return DeepAccess.CreateCopy(original as IAccess) as I;
             }
-            return original;
+            if (type == typeof(IStorageDataObject))
+            {
+                return DeepStorageDataObject.CreateCopy(original as IStorageDataObject) as I;
+            }
+            if (type == typeof(ITaskMessage))
+            {
+                return DeepTaskMessage.CreateCopy(original as ITaskMessage) as I;
+            }*/
+
+            //return original;
+        }
+    }
+
+    [AttributeUsage(AttributeTargets.Method, AllowMultiple = false, Inherited = false)]
+    internal class DeepCopyCreator : Attribute
+    {
+        readonly Type _type;
+
+        public Type Type
+        {
+            get { return _type; }
+        }
+
+        public DeepCopyCreator(Type type) : base()
+        {
+            _type = type;
         }
     }
 }

@@ -10,6 +10,7 @@ namespace Ascon.Pilot.SDK.Extensions.DeepCopies
     {
         private DeepOrganisationUnit(IOrganisationUnit original) : base(original) { }
 
+        [DeepCopyCreator(typeof(IOrganisationUnit))]
         public static IOrganisationUnit CreateCopy(IOrganisationUnit original)
         {
             return IsCopy(original) ? original : new DeepOrganisationUnit(original);

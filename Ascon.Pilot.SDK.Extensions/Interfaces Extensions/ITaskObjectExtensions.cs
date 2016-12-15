@@ -13,14 +13,14 @@ namespace Ascon.Pilot.SDK.Extensions
             return Extensions.Repository.Get<IDataObject>(task.Id);
         }
 
-        public static IEnumerable<IDataObject> GetInitiatorAttachments(this ITaskObject task)
+        public static IEnumerable<IDataObject> GetInitiatorAttachments(this ITaskObject task, ObjectGettingExtensions.OnException onException = null)
         {
-            return Extensions.Repository.Get<IDataObject>(task.InitiatorAttachments);
+            return Extensions.Repository.Get<IDataObject>(task.InitiatorAttachments, onException);
         }
 
-        public static IEnumerable<IDataObject> GetExecutorAttachments(this ITaskObject task)
+        public static IEnumerable<IDataObject> GetExecutorAttachments(this ITaskObject task, ObjectGettingExtensions.OnException onException = null)
         {
-            return Extensions.Repository.Get<IDataObject>(task.ExecutorAttachments);
+            return Extensions.Repository.Get<IDataObject>(task.ExecutorAttachments, onException);
         }
 
         public static IEnumerable<ITaskObject> GetPreviousVersions(this ITaskObject task)

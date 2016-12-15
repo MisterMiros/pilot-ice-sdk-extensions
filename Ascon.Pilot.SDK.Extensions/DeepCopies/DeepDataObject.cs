@@ -11,6 +11,7 @@ namespace Ascon.Pilot.SDK.Extensions.DeepCopies
     {
         private DeepDataObject(IDataObject original) : base(original) { }
 
+        [DeepCopyCreator(typeof(IDataObject))]
         public static IDataObject CreateCopy(IDataObject original)
         {
             return IsCopy(original) ? original : new DeepDataObject(original);
@@ -157,7 +158,7 @@ namespace Ascon.Pilot.SDK.Extensions.DeepCopies
             }
             private set
             {
-                _access = value.ToDictionary(kv => kv.Key, kv => DeepAccess.CreateCopy(kv.Value));
+                _access = value.ToDictionary(kv => kv.Key, kv => kv.Value.Copy());
             }
         }
 
@@ -170,7 +171,7 @@ namespace Ascon.Pilot.SDK.Extensions.DeepCopies
             }
             private set
             {
-                _actualFileSnapshot = DeepFilesSnapshot.CreateCopy(value);
+                _actualFileSnapshot = value.Copy();
             }
         }
 
@@ -183,7 +184,7 @@ namespace Ascon.Pilot.SDK.Extensions.DeepCopies
             }
             private set
             {
-                _files = new ReadOnlyCollection<IFile>(value.Select(file => DeepFile.CreateCopy(file)).ToArray());
+                _files = new ReadOnlyCollection<IFile>(value.Select(file => file.Copy()).ToArray());
             }
         }
 
@@ -197,7 +198,7 @@ namespace Ascon.Pilot.SDK.Extensions.DeepCopies
             private set
             {
                 _previousFileSnapshots =
-                    new ReadOnlyCollection<IFilesSnapshot>(value.Select(snap => DeepFilesSnapshot.CreateCopy(snap)).ToArray());
+                    new ReadOnlyCollection<IFilesSnapshot>(value.Select(snap => snap.Copy()).ToArray());
             }
         }
 
@@ -267,7 +268,7 @@ namespace Ascon.Pilot.SDK.Extensions.DeepCopies
             }
             private set
             {
-                _lockInfo = DeepLockInfo.CreateCopy(value);
+                _lockInfo = value.Copy();
             }
         }
     }

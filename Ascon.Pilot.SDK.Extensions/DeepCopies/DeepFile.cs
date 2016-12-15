@@ -10,6 +10,7 @@ namespace Ascon.Pilot.SDK.Extensions.DeepCopies
     {
         private DeepFile(IFile original) : base(original) { }
 
+        [DeepCopyCreator(typeof(IFile))]
         public static IFile CreateCopy(IFile original)
         {
             return IsCopy(original) ? original : new DeepFile(original);
@@ -73,7 +74,7 @@ namespace Ascon.Pilot.SDK.Extensions.DeepCopies
             private set
             {
                 _signatures =
-                    new ReadOnlyCollection<ISignature>(value.Select(sign => DeepSignature.CreateCopy(sign)).ToArray());
+                    new ReadOnlyCollection<ISignature>(value.Select(sign => sign.Copy()).ToArray());
             }
         }
 

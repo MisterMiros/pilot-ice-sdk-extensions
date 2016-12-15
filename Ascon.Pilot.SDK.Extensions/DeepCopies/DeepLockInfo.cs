@@ -9,6 +9,7 @@ namespace Ascon.Pilot.SDK.Extensions.DeepCopies
     {
         private DeepLockInfo(ILockInfo original) : base(original) { }
 
+        [DeepCopyCreator(typeof(ILockInfo))]
         public static ILockInfo CreateCopy(ILockInfo original)
         {
             return IsCopy(original) ? original : new DeepLockInfo(original);

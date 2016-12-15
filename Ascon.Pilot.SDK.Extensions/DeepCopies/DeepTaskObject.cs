@@ -10,6 +10,7 @@ namespace Ascon.Pilot.SDK.Extensions.DeepCopies
     {
         private DeepTaskObject(ITaskObject original) : base(original) { }
 
+        [DeepCopyCreator(typeof(ITaskObject))]
         public static ITaskObject CreateCopy(ITaskObject original)
         {
             return IsCopy(original) ? original : new DeepTaskObject(original);
@@ -57,7 +58,7 @@ namespace Ascon.Pilot.SDK.Extensions.DeepCopies
             }
             private set
             {
-                _executor = DeepPerson.CreateCopy(value);
+                _executor = value.Copy();
             }
         }
 
@@ -70,7 +71,7 @@ namespace Ascon.Pilot.SDK.Extensions.DeepCopies
             }
             private set
             {
-                _initiator = DeepPerson.CreateCopy(value);
+                _initiator = value.Copy();
             }
         }
 

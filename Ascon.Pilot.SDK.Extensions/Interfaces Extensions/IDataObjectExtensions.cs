@@ -17,6 +17,24 @@ namespace Ascon.Pilot.SDK.Extensions
             throw new InvalidCastException("Невозможно преобразовать объект в задачу");
         }
 
+        public static IWorkflowObject ToWorkflow(this IDataObject dataObject)
+        {
+            if (dataObject.Type.Name == SystemTypeNames.TASK_WORKFLOW)
+            {
+                return Extensions.Repository.Get<IWorkflowObject>(dataObject.Id);
+            }
+            throw new InvalidCastException("Невозможно преобразовать объект в workflow");
+        }
+
+        public static IStageObject ToStage(this IDataObject dataObject)
+        {
+            if (dataObject.Type.Name == SystemTypeNames.TASK_STAGE)
+            {
+                return Extensions.Repository.Get<IStageObject>(dataObject.Id);
+            }
+            throw new InvalidCastException("Невозможно преобразовать объект в стадию задачи на согласование");
+        }
+
         public static object GetAttributeValue(this IDataObject dataObject, string name)
         {
             object value = null;
