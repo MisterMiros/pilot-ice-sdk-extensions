@@ -27,11 +27,7 @@ namespace TestExtensions
 
         public void Start()
         {
-            var objs = Extensions.Repository.GetChildrenByQuery("/project").Select(obj => DeepDataObject.CreateCopy(obj)).ToArray();
-            var people = _repo.GetPeople().Select(person => DeepPerson.CreateCopy(person)).ToArray();
-            var org = _repo.GetOrganisationUnits().Select(ou => DeepOrganisationUnit.CreateCopy(ou)).ToArray();
-            var org2 = org.Select(ou => DeepOrganisationUnit.CreateCopy(ou)).ToArray();
-            var zip = org.Zip(org2, (ou1, ou2) => ReferenceEquals(ou1, ou2));
+            var plans = _repo.GetChildrenByQuery("/RPM_Plan").ToArray();
             string name = "0";
         }
     }
