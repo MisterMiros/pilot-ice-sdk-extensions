@@ -7,7 +7,7 @@ namespace Ascon.Pilot.SDK.Extensions.Interfaces_Extensions
 {
     public static class ITaskMessageExtensions
     {
-        public static IDataObject ToDataObject(ITaskMessage message)
+        public static IDataObject ToDataObject(this ITaskMessage message)
         {
             return Extensions.Repository.Get<IDataObject>(message.Id);
         }
