@@ -42,7 +42,7 @@ namespace Ascon.Pilot.SDK.Extensions
             return value;
         }
 
-        public static IEnumerable<IDataObject> GetAttributeDataObjects(this IDataObject dataObject, string name)
+        public static IEnumerable<KeyValuePair<string, IDataObject>> GetAttributeDataObjects(this IDataObject dataObject, string name)
         {
             string format;
             if (Extensions.AttributeFormatParser == null)
@@ -59,13 +59,13 @@ namespace Ascon.Pilot.SDK.Extensions
             IEnumerable<IDataObject> possibleValues =
                 Extensions.Repository.GetChildrenByQuery("/*", dataObject.Type.GetSourceForAttribute(name))
                 .Where(dObj => dObj.Type.IsBase());
-            string message = string.Empty;
-            return from possibleValue in possibleValues
-                   where attrValues.Contains(possibleValue.FormatAttributes(format))
-                   select possibleValue;
+            return from attrValue in attrValues
+                   select new KeyValuePair<string, IDataObject>(
+                       attrValue,
+                       possibleValues.FirstOrDefault(obj => obj.FormatAttributes(format) == attrValue));
         }
 
-        public static IEnumerable<IPerson> GetAttributePersons(this IDataObject dataObject, string name)
+        public static IEnumerable<KeyValuePair<string, IPerson>> GetAttributePersons(this IDataObject dataObject, string name)
         {
             if (Extensions.AttributeFormatParser == null)
             {
@@ -84,9 +84,11 @@ namespace Ascon.Pilot.SDK.Extensions
                 }
             }
             string[] attrValues = GetAttributeValue(dataObject, name).ToString().Split(';');
-            return from person in Extensions.Repository.GetPeople()
-                   where attrValues.Contains(person.ActualName)
-                   select Extensions.CreateCopy(person);
+            IEnumerable<IPerson> persons = Extensions.Repository.GetPeople();
+            return from attrValue in attrValues
+                   select new KeyValuePair<string, IPerson>(
+                       attrValue,
+                       persons.FirstOrDefault(person => person.ActualName == attrValue));
         }
 
         public static IEnumerable<IDataObject> GetChildren(this IDataObject dataObject)
