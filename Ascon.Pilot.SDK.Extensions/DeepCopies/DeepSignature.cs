@@ -39,7 +39,7 @@ namespace Ascon.Pilot.SDK.Extensions.DeepCopies
             }
             private set
             {
-                _requestedSigner = string.Copy(value ?? string.Empty);
+                _requestedSigner = value == null ? null : string.Copy(value);
             }
         }
 
@@ -52,7 +52,7 @@ namespace Ascon.Pilot.SDK.Extensions.DeepCopies
             }
             private set
             {
-                _role = string.Copy(value ?? string.Empty);
+                _role = value == null ? null : string.Copy(value);
             }
         }
 
@@ -65,7 +65,7 @@ namespace Ascon.Pilot.SDK.Extensions.DeepCopies
             }
             private set
             {
-                _sign = string.Copy(value ?? string.Empty);
+                _sign = value == null ? null : string.Copy(value);
             }
         }
     }

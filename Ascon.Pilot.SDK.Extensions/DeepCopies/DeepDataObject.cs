@@ -41,7 +41,7 @@ namespace Ascon.Pilot.SDK.Extensions.DeepCopies
             }
             private set
             {
-                _creator = DeepPerson.CreateCopy(value);
+                _creator = value.Copy();
             }
         }
 
@@ -54,7 +54,7 @@ namespace Ascon.Pilot.SDK.Extensions.DeepCopies
             }
             private set
             {
-                _type = DeepType.CreateCopy(value);
+                _type = value.Copy();
             }
         }
 
@@ -67,7 +67,7 @@ namespace Ascon.Pilot.SDK.Extensions.DeepCopies
             }
             private set
             {
-                _children = new ReadOnlyCollection<Guid>(value);
+                _children = value == null ? null : new ReadOnlyCollection<Guid>(value);
             }
         }
 
@@ -81,7 +81,7 @@ namespace Ascon.Pilot.SDK.Extensions.DeepCopies
             }
             private set
             {
-                _displayName = string.Copy(value ?? string.Empty);
+                _displayName = value == null ? null : string.Copy(value);
             }
 
         }
@@ -120,7 +120,7 @@ namespace Ascon.Pilot.SDK.Extensions.DeepCopies
             }
             private set
             {
-                _attributes = value.ToDictionary(
+                _attributes = value?.ToDictionary(
                     kv => string.Copy(kv.Key ?? string.Empty),
                     kv =>
                     {
@@ -145,7 +145,7 @@ namespace Ascon.Pilot.SDK.Extensions.DeepCopies
             }
             private set
             {
-                _typesByChildren = new Dictionary<Guid, int>(value);
+                _typesByChildren = value == null ? null : new Dictionary<Guid, int>(value);
             }
         }
 
@@ -158,7 +158,7 @@ namespace Ascon.Pilot.SDK.Extensions.DeepCopies
             }
             private set
             {
-                _access = value.ToDictionary(kv => kv.Key, kv => kv.Value.Copy());
+                _access = value?.ToDictionary(kv => kv.Key, kv => kv.Value.Copy());
             }
         }
 
@@ -184,7 +184,7 @@ namespace Ascon.Pilot.SDK.Extensions.DeepCopies
             }
             private set
             {
-                _files = new ReadOnlyCollection<IFile>(value.Select(file => file.Copy()).ToArray());
+                _files = value == null ? null : new ReadOnlyCollection<IFile>(value.Select(file => file.Copy()).ToArray());
             }
         }
 
@@ -197,7 +197,7 @@ namespace Ascon.Pilot.SDK.Extensions.DeepCopies
             }
             private set
             {
-                _previousFileSnapshots =
+                _previousFileSnapshots = value == null ? null :
                     new ReadOnlyCollection<IFilesSnapshot>(value.Select(snap => snap.Copy()).ToArray());
             }
         }
@@ -211,7 +211,7 @@ namespace Ascon.Pilot.SDK.Extensions.DeepCopies
             }
             private set
             {
-                _relatedSourceFiles = new ReadOnlyCollection<Guid>(value);
+                _relatedSourceFiles = value == null ? null : new ReadOnlyCollection<Guid>(value);
             }
         }
 
@@ -224,7 +224,7 @@ namespace Ascon.Pilot.SDK.Extensions.DeepCopies
             }
             private set
             {
-                _relatedTaskInitiatorAttachments = new ReadOnlyCollection<Guid>(value);
+                _relatedTaskInitiatorAttachments = value == null ? null : new ReadOnlyCollection<Guid>(value);
             }
         }
 
@@ -237,7 +237,7 @@ namespace Ascon.Pilot.SDK.Extensions.DeepCopies
             }
             private set
             {
-                _relatedTaskMessageAttachments = new ReadOnlyCollection<Guid>(value);
+                _relatedTaskMessageAttachments = value == null ? null : new ReadOnlyCollection<Guid>(value);
             }
         }
 
@@ -255,7 +255,7 @@ namespace Ascon.Pilot.SDK.Extensions.DeepCopies
             }
             private set
             {
-                _subscribers = new ReadOnlyCollection<int>(value);
+                _subscribers = value == null ? null : new ReadOnlyCollection<int>(value);
             }
         }
 

@@ -42,7 +42,7 @@ namespace Ascon.Pilot.SDK.Extensions.DeepCopies
             }
             private set
             {
-                _path = string.Copy(value ?? string.Empty);
+                _path = value == null ? null : string.Copy(value);
             }
         }
 

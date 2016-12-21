@@ -35,7 +35,7 @@ namespace Ascon.Pilot.SDK.Extensions.DeepCopies
             }
             private set
             {
-                _files =
+                _files = value == null ? null :
                     new ReadOnlyCollection<IFile>(value.Select(file => file.Copy()).ToArray());
             }
         }
@@ -49,7 +49,7 @@ namespace Ascon.Pilot.SDK.Extensions.DeepCopies
             }
             private set
             {
-                _reason = string.Copy(value ?? string.Empty);
+                _reason = value == null ? null : string.Copy(value);
             }
         }
     }

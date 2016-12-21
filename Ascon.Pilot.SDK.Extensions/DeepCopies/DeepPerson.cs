@@ -24,7 +24,7 @@ namespace Ascon.Pilot.SDK.Extensions.DeepCopies
             }
             private set
             {
-                _actualName = string.Copy(value ?? string.Empty);
+                _actualName = value == null ? null : string.Copy(value);
             }
         }
 
@@ -38,7 +38,7 @@ namespace Ascon.Pilot.SDK.Extensions.DeepCopies
             }
             private set
             {
-                _displayName = string.Copy(value ?? string.Empty);
+                _displayName = value == null ? null : string.Copy(value);
             }
 
         }
@@ -71,7 +71,7 @@ namespace Ascon.Pilot.SDK.Extensions.DeepCopies
             }
             private set
             {
-                _login = string.Copy(value ?? string.Empty);
+                _login = value == null ? null : string.Copy(value);
             }
 
         }
@@ -85,7 +85,7 @@ namespace Ascon.Pilot.SDK.Extensions.DeepCopies
             }
             private set
             {
-                _comment = string.Copy(value ?? string.Empty);
+                _comment = value == null ? null : string.Copy(value);
             }
         }
 
@@ -108,7 +108,7 @@ namespace Ascon.Pilot.SDK.Extensions.DeepCopies
             }
             set
             {
-                _positions = new ReadOnlyCollection<IPosition>(value.Select(pos => pos.Copy()).ToArray());
+                _positions = value == null ? null : new ReadOnlyCollection<IPosition>(value.Select(pos => pos.Copy()).ToArray());
             }
         }
 
@@ -121,7 +121,7 @@ namespace Ascon.Pilot.SDK.Extensions.DeepCopies
             }
             private set
             {
-                _sid = string.Copy(value ?? string.Empty);
+                _sid = value == null ? null : string.Copy(value);
             }
         }
     }

@@ -24,7 +24,7 @@ namespace Ascon.Pilot.SDK.Extensions.DeepCopies
             }
             private set
             {
-                _description = string.Copy(value ?? string.Empty);
+                _description = value == null ? null : string.Copy(value);
             }
         }
 
@@ -42,7 +42,7 @@ namespace Ascon.Pilot.SDK.Extensions.DeepCopies
             }
             private set
             {
-                _initiatorAttachments = value.Select(a => a).ToArray();
+                _initiatorAttachments = value?.Select(a => a).ToArray();
             }
         }
 
@@ -55,7 +55,7 @@ namespace Ascon.Pilot.SDK.Extensions.DeepCopies
             }
             private set
             {
-                _title = string.Copy(value ?? string.Empty);
+                _title = value == null ? null : string.Copy(value);
             }
         }
     }
