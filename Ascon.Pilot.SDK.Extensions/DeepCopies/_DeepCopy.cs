@@ -10,9 +10,11 @@ namespace Ascon.Pilot.SDK.Extensions.DeepCopies
     {
         protected DeepCopy(I original)
         {
+            Type thisType = GetType();
             foreach (var property in typeof(I).GetProperties())
             {
-                property.SetValue(this, property.GetValue(original, null), null);
+                var thisProp = thisType.GetProperty(property.Name);
+                thisProp.SetValue(this, property.GetValue(original, null), null);
             }
         }
 
