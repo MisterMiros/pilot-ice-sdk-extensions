@@ -26,7 +26,7 @@ namespace Ascon.Pilot.SDK.Extensions
             }
         }
 
-        const string guidName = "Data Object Guid";
+        protected const string guidName = "Data Object Guid";
 
         public DataObjectException(IDataObject dataObject) : base()
         {
@@ -82,7 +82,7 @@ namespace Ascon.Pilot.SDK.Extensions
             }
         }
 
-        const string idName = "Type Id";
+        protected const string idName = "Type Id";
 
         public TypeException(IType type) : base()
         {
@@ -147,7 +147,7 @@ namespace Ascon.Pilot.SDK.Extensions
             }
         }
 
-        const string guidName = "Task Object Guid";
+        protected const string guidName = "Task Object Guid";
 
         public TaskObjectException(ITaskObject task) : base()
         {
@@ -197,7 +197,7 @@ namespace Ascon.Pilot.SDK.Extensions
             }
         }
 
-        const string idName = "Person Id";
+        protected const string idName = "Person Id";
 
         public PersonException(IPerson person) : base()
         {
