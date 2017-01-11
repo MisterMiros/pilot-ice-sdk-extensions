@@ -10,9 +10,21 @@ namespace Ascon.Pilot.SDK.Extensions
 {
     public static class Extensions
     {
+        static IObjectsRepository _repository = null;
         public static IObjectsRepository Repository
         {
-            get; set;
+            get
+            {
+                if (_repository == null)
+                {
+                    throw new InvalidOperationException("В static классе Extensions не задано свойство Repository");
+                }
+                return _repository;
+            }
+            set
+            {
+                _repository = value;
+            }
         }
 
         public static int Timeout
@@ -29,6 +41,8 @@ namespace Ascon.Pilot.SDK.Extensions
         {
             get; set;
         }
+
+        public const string THREAD_NAME = "PilotSDKExtensions";
 
         static Extensions()
         {
@@ -54,7 +68,7 @@ namespace Ascon.Pilot.SDK.Extensions
             if (Repository != null)
             {
                 Thread thread = new Thread(action);
-                thread.Name = "Extensions";
+                thread.Name = THREAD_NAME;
                 thread.Start();
                 return true;
             }

@@ -4,16 +4,18 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Ascon.Pilot.SDK;
+using Ascon.Pilot.Theme.Controls;
 using SE = Ascon.Pilot.SDK.Extensions;
 using Ascon.Pilot.SDK.Extensions;
 using Ascon.Pilot.SDK.Extensions.DeepCopies;
 using System.ComponentModel.Composition;
 using System.Xml.Linq;
+using System.Collections;
 
 namespace TestExtensions
 {
-    [Export(typeof(IDataPlugin))]
-    public class MainT : IDataPlugin
+    [Export(typeof(IMainMenu))]
+    public class MainT : IMainMenu
     {
         IObjectsRepository _repo;
         IObjectModifier _om;
@@ -25,21 +27,54 @@ namespace TestExtensions
             _om = om;
             SE.Extensions.AttributeFormatParser = parser;
             SE.Extensions.Repository = repo;
-            SE.Extensions.Start(Start);
+            Start();
         }
 
         public void Start()
         {
-            /*var folders = _repo.GetChildrenByQuery("/RPM_Plan_Folder").ToArray();
-            var children = folders.ToDictionary(folder => folder, folder => folder.GetChildren().ToArray());
-            var plan = _repo.GetChildrenByQuery("/RPM_Plan").Where(obj => obj.DisplayName.Contains("Тестовый план 2")).First();
-            var doc = XElement.Parse(plan.Attributes["Xml"] as string);
-            doc.Element("items").RemoveAll();
-            var builder = _om.EditById(plan.Id);
-            builder.SetAttribute("Xml", doc.ToString(SaveOptions.DisableFormatting));
-            _om.Apply();*/
-            var tasks = _repo.GetTasks().Select(task => task.Copy()).ToArray();
+            Node root = new Node(_repo.GetRootObjectNew());
             string name = "0";
+        }
+
+        const string MENU_NAME = "testitem";
+
+        public void OnMenuItemClick(string itemName)
+        {
+            if (itemName == MENU_NAME)
+            {
+                var window = new PureWindow();
+                window.Content = new TestControl();
+            }
+        }
+
+        public void BuildMenu(IMenuHost menuHost)
+        {
+            menuHost.AddItem(MENU_NAME, "Открыть окно", null, menuHost.GetItems().Count());
+        }
+    }
+
+    class Node
+    {
+        public readonly IDataObject Object;
+        public IEnumerable<Node> Children;
+
+        public Node(IDataObject @object)
+        {
+            Object = @object.Copy();
+            Children = @object.GetChildren().Select(child => new Node(child)).ToArray();
+        }
+
+        public int Count
+        {
+            get
+            {
+                return Children.Any() ? Children.Sum(node => node.Count + 1): 0;
+            }
+        }
+
+        public override string ToString()
+        {
+            return $"{Object.DisplayName} - {Object.Type.Name} - {this.Count}";
         }
     }
 }

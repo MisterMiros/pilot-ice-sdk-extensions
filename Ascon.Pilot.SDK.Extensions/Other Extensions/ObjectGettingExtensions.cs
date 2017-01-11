@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Ascon.Pilot.SDK;
+using System.Reflection;
 using System.Threading;
+using System.Diagnostics;
 
 namespace Ascon.Pilot.SDK.Extensions
 {
@@ -11,9 +13,18 @@ namespace Ascon.Pilot.SDK.Extensions
     {
         public delegate void OnException(Exception ex);
 
+        private static void CheckThread()
+        {
+            if (Thread.CurrentThread.Name != Extensions.THREAD_NAME)
+            {
+                throw new InvalidOperationException($"Метод запускается не в потоке \"{Extensions.THREAD_NAME}\".");
+            }
+        }
+
         public static IEnumerable<I> Get<I>(this IObjectsRepository repo, IEnumerable<Guid> guids, OnException onException = null)
             where I : class
         {
+            CheckThread();
             var observer = ObjectObserver<I>.Instance;
             foreach (var observable in repo.SubscribeMany<I>(guids))
             {
@@ -32,6 +43,7 @@ namespace Ascon.Pilot.SDK.Extensions
         public static I Get<I>(this IObjectsRepository repo, Guid guid)
             where I : class
         {
+            CheckThread();
             return ObjectObserver<I>.Instance.Observe(repo.Subscribe<I>(guid));
         }
 
@@ -89,7 +101,7 @@ namespace Ascon.Pilot.SDK.Extensions
                 _resetEvent.WaitOne(Extensions.Timeout);
                 if (!_gotObject)
                 {
-                    throw new TimeoutException("Получение объекта данных из Pilot заняло более 10 секунд");
+                    throw new TimeoutException($"Получение объекта данных из Pilot заняло более {Extensions.Timeout/1000} секунд");
                 }
                 while (unsub == null) { }
                 unsub.Dispose();
