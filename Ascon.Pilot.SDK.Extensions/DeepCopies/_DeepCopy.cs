@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Reflection;
+using System.Collections.ObjectModel;
 
 namespace Ascon.Pilot.SDK.Extensions.DeepCopies
 {
@@ -21,6 +22,16 @@ namespace Ascon.Pilot.SDK.Extensions.DeepCopies
         public static bool IsCopy(I original)
         {
             return original == null || original is DeepCopy<I>;
+        }
+
+        protected static ReadOnlyCollection<T> CopyCollection<T>(ReadOnlyCollection<T> original) where T : struct
+        {
+            return original == null ? null : new ReadOnlyCollection<T>(original);
+        }
+
+        protected static string CopyString(string s)
+        {
+            return s == null ? null : string.Copy(s);
         }
     }
 
@@ -43,7 +54,7 @@ namespace Ascon.Pilot.SDK.Extensions.DeepCopies
 
         public static I CreateCopy<I>(I original)
             where I : class
-        {
+        { 
             Type type = typeof(I);
             if (!_copyCreators.ContainsKey(type)) { return original; }
             return _copyCreators[type]?.Invoke(null, new object[] { original }) as I;

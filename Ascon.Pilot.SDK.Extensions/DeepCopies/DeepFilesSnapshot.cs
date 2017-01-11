@@ -49,7 +49,7 @@ namespace Ascon.Pilot.SDK.Extensions.DeepCopies
             }
             private set
             {
-                _reason = value == null ? null : string.Copy(value);
+                _reason = CopyString(value);
             }
         }
     }

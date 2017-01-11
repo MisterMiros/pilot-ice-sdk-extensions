@@ -41,7 +41,7 @@ namespace Ascon.Pilot.SDK.Extensions.DeepCopies
             }
             private set
             {
-                _md5 = value == null ? null : string.Copy(value);
+                _md5 = CopyString(value);
             }
         }
 
@@ -60,7 +60,7 @@ namespace Ascon.Pilot.SDK.Extensions.DeepCopies
             }
             private set
             {
-                _name = value == null ? null : string.Copy(value);
+                _name = CopyString(value);
             }
         }
 

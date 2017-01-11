@@ -67,7 +67,7 @@ namespace Ascon.Pilot.SDK.Extensions.DeepCopies
             }
             private set
             {
-                _children = value == null ? null : new ReadOnlyCollection<Guid>(value);
+                _children = CopyCollection(value);
             }
         }
 
@@ -81,7 +81,7 @@ namespace Ascon.Pilot.SDK.Extensions.DeepCopies
             }
             private set
             {
-                _displayName = value == null ? null : string.Copy(value);
+                _displayName = CopyString(value);
             }
 
         }
@@ -211,7 +211,7 @@ namespace Ascon.Pilot.SDK.Extensions.DeepCopies
             }
             private set
             {
-                _relatedSourceFiles = value == null ? null : new ReadOnlyCollection<Guid>(value);
+                _relatedSourceFiles = CopyCollection(value);
             }
         }
 
@@ -224,7 +224,7 @@ namespace Ascon.Pilot.SDK.Extensions.DeepCopies
             }
             private set
             {
-                _relatedTaskInitiatorAttachments = value == null ? null : new ReadOnlyCollection<Guid>(value);
+                _relatedTaskInitiatorAttachments = CopyCollection(value);
             }
         }
 
@@ -237,7 +237,7 @@ namespace Ascon.Pilot.SDK.Extensions.DeepCopies
             }
             private set
             {
-                _relatedTaskMessageAttachments = value == null ? null : new ReadOnlyCollection<Guid>(value);
+                _relatedTaskMessageAttachments = CopyCollection(value);
             }
         }
 
@@ -255,7 +255,7 @@ namespace Ascon.Pilot.SDK.Extensions.DeepCopies
             }
             private set
             {
-                _subscribers = value == null ? null : new ReadOnlyCollection<int>(value);
+                _subscribers = CopyCollection(value);
             }
         }
 

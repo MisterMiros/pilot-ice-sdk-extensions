@@ -70,7 +70,7 @@ namespace Ascon.Pilot.SDK.Extensions.DeepCopies
             }
             private set
             {
-                _text = value == null ? null : string.Copy(value);
+                _text = CopyString(value);
             }
         }     
     }

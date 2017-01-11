@@ -25,7 +25,7 @@ namespace Ascon.Pilot.SDK.Extensions.DeepCopies
             }
             private set
             {
-                _children = value == null ? null : new ReadOnlyCollection<int>(value);
+                _children = CopyCollection(value);
             }
         }
 
@@ -53,7 +53,7 @@ namespace Ascon.Pilot.SDK.Extensions.DeepCopies
             }
             private set
             {
-                _title = value == null ? null : string.Copy(value);
+                _title = CopyString(value);
             }
         }
     }
